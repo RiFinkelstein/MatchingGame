@@ -91,8 +91,9 @@ namespace MatchingGameApp
                     MatchPart2.Enabled = false;
                     MatchPart1 = null;
                     MatchPart2 = null;
+                    GameOVer();
                 }
-                else
+             else
                 {
                     //when the wrong match is turned over then the progam waits a few seconds and then turns the cards back over
                     var t = Task.Run(async delegate
@@ -114,13 +115,14 @@ namespace MatchingGameApp
                     MatchPart2 = null;
 
                 }
-                GameOVer();
+
             }
+
         }
 
         private void GameOVer()
         {
-            if (lstMatchButtons1.Where(b => b.Text == "").Count() == 0 && lstMatchButtons2.Where(b => b.Text == "").Count() == 0)
+            if (lstMatchButtons1.Where(b => b.Enabled== true).Count() == 0 && lstMatchButtons2.Where(b => b.Enabled == true).Count() == 0)
             {
                 lblGameStatus.Text = "Game Over- Press Start to play again";
             }
@@ -156,6 +158,7 @@ namespace MatchingGameApp
             ScorePlayer1 = 0;
             ScorePlayer2 = 0;
             AddWordsToButton();
+            btnStart.Text = "Restart";
 
         }
     }
