@@ -12,6 +12,10 @@ namespace MatchingGameApp
 {
     public partial class MatchingGame : Form
     {
+
+        enum TurnEnum { Player1, Player2 };
+        TurnEnum CurrentTurn= TurnEnum.Player1;
+
         Button MatchPart1;
         Button MatchPart2;
 
@@ -83,10 +87,20 @@ namespace MatchingGameApp
         {
             if (MatchPart1 != null && MatchPart2 != null)
             {
+
                 if (MatchPart1.Text == MatchPart2.Text)
                 {
-                    ScorePlayer1++;
-                    lblPlayer1Score.Text = ScorePlayer1.ToString();
+                    //ScorePlayer1++;
+                    if (CurrentTurn== TurnEnum.Player1)
+                    {
+                        ScorePlayer1++;
+                        lblPlayer1Score.Text = CurrentTurn + ": "+ ScorePlayer1.ToString();
+                    }
+                    else
+                    {
+                        ScorePlayer2++;
+                        lblPlayer2Score.Text = CurrentTurn+ ": " + ScorePlayer2.ToString();
+                    }
                     MatchPart1.Enabled = false;
                     MatchPart2.Enabled = false;
                     MatchPart1 = null;
@@ -110,14 +124,24 @@ namespace MatchingGameApp
                             lblGameStatus.Text = "Current Turn: ";
                         }));
                     }
-
                     MatchPart1 = null;
                     MatchPart2 = null;
-
+                    SwitchTurn();
+                    lblGameStatus.Text = "Current Turn: " + CurrentTurn;
                 }
-
             }
+        }
 
+        private void SwitchTurn()
+        {
+            if (CurrentTurn== TurnEnum.Player1)
+            {
+                CurrentTurn = TurnEnum.Player2;
+            }
+            else
+            {
+                CurrentTurn = TurnEnum.Player1;
+            }
         }
 
         private void GameOVer()
@@ -154,7 +178,7 @@ namespace MatchingGameApp
             lstMatchButtons2.ForEach(b => b.Enabled = true);
             lstMatchButtons1.ForEach(b => b.ForeColor = Color.DarkBlue);
             lstMatchButtons2.ForEach(b => b.ForeColor = Color.DarkBlue);
-            lblGameStatus.Text = "Current Turn: ";
+            lblGameStatus.Text = "Current Turn: "+ CurrentTurn;
             ScorePlayer1 = 0;
             ScorePlayer2 = 0;
             AddWordsToButton();
