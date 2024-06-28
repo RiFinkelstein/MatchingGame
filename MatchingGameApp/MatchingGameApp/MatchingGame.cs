@@ -28,15 +28,28 @@ namespace MatchingGameApp
         {
             InitializeComponent();
             btnStart.Click += BtnStart_Click;
+
+
+
             lstMatchButtons1 = new() {btnMatch1, btnMatch2, btnMatch3, btnMatch4, btnMatch5, btnMatch6, btnMatch7, btnMatch8};
             lstMatchButtons2 = new() {btnMatch9, btnMatch10, btnMatch11, btnMatch12, btnMatch13, btnMatch14, btnMatch15, btnMatch16 };
+
+
+            lstMatchButtons1.ForEach(b => b.Click += Card1Clicked);
+            lstMatchButtons2.ForEach(b => b.Click += Card2Clicked);
 
             lstMatchStrings = new() { "A", "B", "C", "D", "E", "F", "G", "H"};
             lstMatchButtons1.ForEach(b => b.Enabled = false);
             lstMatchButtons2.ForEach(b => b.Enabled = false);
+            lstMatchButtons1.ForEach(b => b.ForeColor = Color.DarkBlue);
+            lstMatchButtons2.ForEach(b => b.ForeColor = Color.DarkBlue);
+
 
             lblGameStatus.Text = "Click Start to begin game";
         }
+
+
+
 
         private void AddWordsToButton()
         {
@@ -50,10 +63,37 @@ namespace MatchingGameApp
             }
         }
 
+        private void RevealPictures(Button btn)
+        {
+            if (btn.ForeColor == Color.DarkBlue)
+            {
+                btn.ForeColor = Color.White;
+            }
+        }
+
+
+        private void Card2Clicked(object? sender, EventArgs e)
+        {
+            if (sender is Button)
+            {
+                RevealPictures((Button)sender);
+            }
+        }
+
+        private void Card1Clicked(object? sender, EventArgs e)
+        {
+            if (sender is Button)
+            {
+                RevealPictures((Button)sender);
+            }
+        }
+
         private void BtnStart_Click(object? sender, EventArgs e)
         {
             lstMatchButtons1.ForEach(b => b.Enabled = true);
             lstMatchButtons2.ForEach(b => b.Enabled = true);
+            lstMatchButtons1.ForEach(b => b.ForeColor = Color.DarkBlue);
+            lstMatchButtons2.ForEach(b => b.ForeColor = Color.DarkBlue);
             lblGameStatus.Text = "Current Turn: ";
             AddWordsToButton();
 
