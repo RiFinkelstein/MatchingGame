@@ -22,7 +22,8 @@ namespace MatchingGameApp
         List<Button> lstMatchButtons2;
         List<string> lstMatchStrings;
 
-
+        int ScorePlayer1 = 0;
+        int ScorePlayer2 = 0;
 
         public MatchingGame()
         {
@@ -31,14 +32,14 @@ namespace MatchingGameApp
 
 
 
-            lstMatchButtons1 = new() {btnMatch1, btnMatch2, btnMatch3, btnMatch4, btnMatch5, btnMatch6, btnMatch7, btnMatch8};
-            lstMatchButtons2 = new() {btnMatch9, btnMatch10, btnMatch11, btnMatch12, btnMatch13, btnMatch14, btnMatch15, btnMatch16 };
+            lstMatchButtons1 = new() { btnMatch1, btnMatch2, btnMatch3, btnMatch4, btnMatch5, btnMatch6, btnMatch7, btnMatch8 };
+            lstMatchButtons2 = new() { btnMatch9, btnMatch10, btnMatch11, btnMatch12, btnMatch13, btnMatch14, btnMatch15, btnMatch16 };
 
 
             lstMatchButtons1.ForEach(b => b.Click += Card1Clicked);
             lstMatchButtons2.ForEach(b => b.Click += Card2Clicked);
 
-            lstMatchStrings = new() { "A", "B", "C", "D", "E", "F", "G", "H"};
+            lstMatchStrings = new() { "A", "B", "C", "D", "E", "F", "G", "H" };
             lstMatchButtons1.ForEach(b => b.Enabled = false);
             lstMatchButtons2.ForEach(b => b.Enabled = false);
             lstMatchButtons1.ForEach(b => b.ForeColor = Color.DarkBlue);
@@ -83,28 +84,65 @@ namespace MatchingGameApp
 
         private void CheckMatch()
         {
-            if (MatchPart1.Text== MatchPart2.Text)
+            if (MatchPart1 != null && MatchPart2 != null)
             {
-               // addScore();
+                if (MatchPart1.Text == MatchPart2.Text)
+                {
+                    ScorePlayer1++;
+                    lblPlayer1Score.Text = ScorePlayer1.ToString();
+                    MatchPart1.Enabled = false;
+                    MatchPart2.Enabled = false;
+                    MatchPart1 = null;
+                    MatchPart2 = null;
+                }
+                else
+                {
+                    //when the wrong match is turned over then the progam waits a few seconds and then turns the cards back over
+                    var t = Task.Run(async delegate
+                    {
+                        await Task.Delay(1000);
+                    });
+                    t.Wait();
+                    {
+                        // Reset unmatched buttons to dark blue
+                        this.Invoke(new Action(() =>
+                        {
+                            MatchPart1.ForeColor = Color.DarkBlue;
+                            MatchPart2.ForeColor = Color.DarkBlue;
+                            lblGameStatus.Text = "Current Turn: ";
+                        }));
+                    }
+
+                    MatchPart1 = null;
+                    MatchPart2 = null;
+
+                }
             }
+
+
         }
+
+               
 
         private void Card2Clicked(object? sender, EventArgs e)
         {
 
-            if (sender is Button && MatchPart2.ForeColor== Color.White )
+            if (sender is Button)
             {
                 RevealPictures2((Button)sender);
+                CheckMatch();
+
             }
 
-            
+
         }
 
         private void Card1Clicked(object? sender, EventArgs e)
         {
-            if (sender is Button && MatchPart1.ForeColor == Color.White)
+            if (sender is Button)
             {
                 RevealPictures1((Button)sender);
+                CheckMatch();
             }
         }
 
@@ -116,6 +154,8 @@ namespace MatchingGameApp
             lstMatchButtons1.ForEach(b => b.ForeColor = Color.DarkBlue);
             lstMatchButtons2.ForEach(b => b.ForeColor = Color.DarkBlue);
             lblGameStatus.Text = "Current Turn: ";
+            ScorePlayer1 = 0;
+            ScorePlayer2 = 0;
             AddWordsToButton();
 
         }
