@@ -29,7 +29,7 @@ namespace MatchingGameApp
             InitializeComponent();
             btnStart.Click += BtnStart_Click;
             lstMatchButtons1 = new() {btnMatch1, btnMatch2, btnMatch3, btnMatch4, btnMatch5, btnMatch6, btnMatch7, btnMatch8};
-            lstMatchButtons2 = new() {btnMatch9, btnMatch10, btnMatch11, btnMatch12, btnMatch15, btnMatch13, btnMatch14, btnMatch15, btnMatch16 };
+            lstMatchButtons2 = new() {btnMatch9, btnMatch10, btnMatch11, btnMatch12, btnMatch13, btnMatch14, btnMatch15, btnMatch16 };
 
             lstMatchStrings = new() { "A", "B", "C", "D", "E", "F", "G", "H"};
             lstMatchButtons1.ForEach(b => b.Enabled = false);
@@ -43,9 +43,10 @@ namespace MatchingGameApp
             Random rnd = new();
             lstMatchButtons1 = lstMatchButtons1.OrderBy(x => rnd.Next()).ToList();
             //assign text to lables
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 8; i++)
             {
-                lstMatchStrings[i] = lstMatchButtons1[i].Text;
+                lstMatchButtons1[i].Text = lstMatchStrings[i];
+                lstMatchButtons2[i].Text = lstMatchStrings[i];
             }
         }
 
