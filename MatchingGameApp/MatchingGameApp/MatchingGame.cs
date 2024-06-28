@@ -15,8 +15,6 @@ namespace MatchingGameApp
         Button MatchPart1;
         Button MatchPart2;
 
-        Button ClickedButton1;
-        Button ClickedButton2;
 
         List<Button> lstMatchButtons1;
         List<Button> lstMatchButtons2;
@@ -29,7 +27,6 @@ namespace MatchingGameApp
         {
             InitializeComponent();
             btnStart.Click += BtnStart_Click;
-
 
 
             lstMatchButtons1 = new() { btnMatch1, btnMatch2, btnMatch3, btnMatch4, btnMatch5, btnMatch6, btnMatch7, btnMatch8 };
@@ -117,24 +114,26 @@ namespace MatchingGameApp
                     MatchPart2 = null;
 
                 }
+                GameOVer();
             }
-
-
         }
 
-               
+        private void GameOVer()
+        {
+            if (lstMatchButtons1.Where(b => b.Text == "").Count() == 0 && lstMatchButtons2.Where(b => b.Text == "").Count() == 0)
+            {
+                lblGameStatus.Text = "Game Over- Press Start to play again";
+            }
+        }  
 
         private void Card2Clicked(object? sender, EventArgs e)
         {
-
             if (sender is Button)
             {
                 RevealPictures2((Button)sender);
                 CheckMatch();
 
             }
-
-
         }
 
         private void Card1Clicked(object? sender, EventArgs e)
