@@ -63,30 +63,51 @@ namespace MatchingGameApp
             }
         }
 
-        private void RevealPictures(Button btn)
+        private void RevealPictures1(Button btn)
         {
             if (btn.ForeColor == Color.DarkBlue)
             {
                 btn.ForeColor = Color.White;
             }
+            MatchPart1 = btn;
         }
 
+        private void RevealPictures2(Button btn)
+        {
+            if (btn.ForeColor == Color.DarkBlue)
+            {
+                btn.ForeColor = Color.White;
+            }
+            MatchPart2 = btn;
+        }
+
+        private void CheckMatch()
+        {
+            if (MatchPart1.Text== MatchPart2.Text)
+            {
+               // addScore();
+            }
+        }
 
         private void Card2Clicked(object? sender, EventArgs e)
         {
-            if (sender is Button)
+
+            if (sender is Button && MatchPart2.ForeColor== Color.White )
             {
-                RevealPictures((Button)sender);
+                RevealPictures2((Button)sender);
             }
+
+            
         }
 
         private void Card1Clicked(object? sender, EventArgs e)
         {
-            if (sender is Button)
+            if (sender is Button && MatchPart1.ForeColor == Color.White)
             {
-                RevealPictures((Button)sender);
+                RevealPictures1((Button)sender);
             }
         }
+
 
         private void BtnStart_Click(object? sender, EventArgs e)
         {
