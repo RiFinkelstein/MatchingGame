@@ -27,6 +27,8 @@ namespace MatchingGameApp
         int ScorePlayer1 = 0;
         int ScorePlayer2 = 0;
 
+
+
         public MatchingGame()
         {
             InitializeComponent();
@@ -70,8 +72,9 @@ namespace MatchingGameApp
             if (btn.ForeColor == Color.DarkBlue)
             {
                 btn.ForeColor = Color.White;
+                MatchPart1 = btn;
+
             }
-            MatchPart1 = btn;
         }
 
         private void RevealPictures2(Button btn)
@@ -79,18 +82,17 @@ namespace MatchingGameApp
             if (btn.ForeColor == Color.DarkBlue)
             {
                 btn.ForeColor = Color.White;
+                MatchPart2 = btn;
+
             }
-            MatchPart2 = btn;
         }
 
         private void CheckMatch()
         {
             if (MatchPart1 != null && MatchPart2 != null)
             {
-
                 if (MatchPart1.Text == MatchPart2.Text)
                 {
-                    //ScorePlayer1++;
                     if (CurrentTurn== TurnEnum.Player1)
                     {
                         ScorePlayer1++;
@@ -107,28 +109,52 @@ namespace MatchingGameApp
                     MatchPart2 = null;
                     GameOVer();
                 }
-             else
+                else
                 {
                     //when the wrong match is turned over then the progam waits a few seconds and then turns the cards back over
                     var t = Task.Run(async delegate
                     {
-                        await Task.Delay(1000);
+                        await Task.Delay(3000);
                     });
                     t.Wait();
                     {
                         // Reset unmatched buttons to dark blue
-                        this.Invoke(new Action(() =>
-                        {
                             MatchPart1.ForeColor = Color.DarkBlue;
                             MatchPart2.ForeColor = Color.DarkBlue;
                             lblGameStatus.Text = "Current Turn: ";
-                        }));
+                        MatchPart1 = null;
+                        MatchPart2 = null;
+                        SwitchTurn();
+                        lblGameStatus.Text = "Current Turn: " + CurrentTurn;
+
+
                     }
-                    MatchPart1 = null;
-                    MatchPart2 = null;
-                    SwitchTurn();
-                    lblGameStatus.Text = "Current Turn: " + CurrentTurn;
+
                 }
+            }
+        }
+        
+        private void DoComputerTurn()
+        {
+            CurrentTurn = TurnEnum.Player2;
+            lblGameStatus.Text = "Current Turn: " + CurrentTurn;
+            var t = Task.Run(async delegate
+            {
+                await Task.Delay(4000);
+            });
+            t.Wait();
+            {
+                CurrentTurn = TurnEnum.Player2;
+                lblGameStatus.Text = "Current Turn: " + CurrentTurn;
+                var lst1 = lstMatchButtons1.Where(b => b.Enabled == true).ToList();
+                var btn1 = lst1[new Random().Next(0, lst1.Count())];
+                RevealPictures1(btn1);
+                MatchPart1 = btn1;
+                var lst2 = lstMatchButtons2.Where(b => b.Enabled == true).ToList();
+                var btn2 = lst2[new Random().Next(0, lst2.Count())];
+                RevealPictures2(btn2);
+                MatchPart2 = btn2;
+                CheckMatch();
             }
         }
 
@@ -142,6 +168,12 @@ namespace MatchingGameApp
             {
                 CurrentTurn = TurnEnum.Player1;
             }
+            lblGameStatus.Text = "Current Turn: " + CurrentTurn;
+            if (CurrentTurn == TurnEnum.Player2 && optAgainstComputer.Checked)
+            {
+                DoComputerTurn();
+            }
+
         }
 
         private void GameOVer()
@@ -150,15 +182,13 @@ namespace MatchingGameApp
             {
                 lblGameStatus.Text = "Game Over- Press Start to play again";
             }
-        }  
-
+        }
         private void Card2Clicked(object? sender, EventArgs e)
         {
             if (sender is Button)
             {
                 RevealPictures2((Button)sender);
                 CheckMatch();
-
             }
         }
 
@@ -178,7 +208,9 @@ namespace MatchingGameApp
             lstMatchButtons2.ForEach(b => b.Enabled = true);
             lstMatchButtons1.ForEach(b => b.ForeColor = Color.DarkBlue);
             lstMatchButtons2.ForEach(b => b.ForeColor = Color.DarkBlue);
-            lblGameStatus.Text = "Current Turn: "+ CurrentTurn;
+            lblPlayer1Score.Text = "Player 1: 0";
+            lblPlayer2Score.Text = "Player 2: 0";
+            lblGameStatus.Text = "Current Turn: "+ TurnEnum.Player1;
             ScorePlayer1 = 0;
             ScorePlayer2 = 0;
             AddWordsToButton();
