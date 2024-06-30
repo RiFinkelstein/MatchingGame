@@ -59,6 +59,8 @@ namespace MatchingGameApp
         {
             Random rnd = new();
             lstMatchButtons1 = lstMatchButtons1.OrderBy(x => rnd.Next()).ToList();
+            lstMatchButtons2 = lstMatchButtons2.OrderBy(x => rnd.Next()).ToList();
+
             //assign text to lables
             for (int i = 0; i < 8; i++)
             {
@@ -124,11 +126,12 @@ namespace MatchingGameApp
                         lblGameStatus.Text = "Current Turn: ";
                         MatchPart1 = null;
                         MatchPart2 = null;
+                        SwitchTurn();
+                        lblGameStatus.Text = "Current Turn: " + CurrentTurn;
                     }
 
                 }
-                SwitchTurn();
-                lblGameStatus.Text = "Current Turn: " + CurrentTurn;
+
             }
         }
         
@@ -143,7 +146,6 @@ namespace MatchingGameApp
             t.Wait();
             {
                 CurrentTurn = TurnEnum.Player2;
-                lblGameStatus.Text = "Current Turn: " + CurrentTurn;
                 var lst1 = lstMatchButtons1.Where(b => b.Enabled == true).ToList();
                 var btn1 = lst1[new Random().Next(0, lst1.Count())];
                 RevealPictures1(btn1);
@@ -192,7 +194,7 @@ namespace MatchingGameApp
 
             if (lstMatchButtons1.Where(b => b.Enabled== true).Count() == 0 && lstMatchButtons2.Where(b => b.Enabled == true).Count() == 0)
             {
-                lblGameStatus.Text =  winner  +Environment.NewLine +"Game Over- Press Start to play again ";
+                lblGameStatus.Text =  winner  +Environment.NewLine +"Game Over- Press Restart to play again ";
             }
         }
         private void Card2Clicked(object? sender, EventArgs e)
