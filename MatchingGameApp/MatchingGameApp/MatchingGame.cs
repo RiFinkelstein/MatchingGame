@@ -114,23 +114,21 @@ namespace MatchingGameApp
                     //when the wrong match is turned over then the progam waits a few seconds and then turns the cards back over
                     var t = Task.Run(async delegate
                     {
-                        await Task.Delay(3000);
+                        await Task.Delay(1000);
                     });
                     t.Wait();
                     {
                         // Reset unmatched buttons to dark blue
-                            MatchPart1.ForeColor = Color.DarkBlue;
-                            MatchPart2.ForeColor = Color.DarkBlue;
-                            lblGameStatus.Text = "Current Turn: ";
+                        MatchPart1.ForeColor = Color.DarkBlue;
+                        MatchPart2.ForeColor = Color.DarkBlue;
+                        lblGameStatus.Text = "Current Turn: ";
                         MatchPart1 = null;
                         MatchPart2 = null;
-                        SwitchTurn();
-                        lblGameStatus.Text = "Current Turn: " + CurrentTurn;
-
-
                     }
 
                 }
+                SwitchTurn();
+                lblGameStatus.Text = "Current Turn: " + CurrentTurn;
             }
         }
         
@@ -140,7 +138,7 @@ namespace MatchingGameApp
             lblGameStatus.Text = "Current Turn: " + CurrentTurn;
             var t = Task.Run(async delegate
             {
-                await Task.Delay(4000);
+                await Task.Delay(1000);
             });
             t.Wait();
             {
@@ -178,9 +176,23 @@ namespace MatchingGameApp
 
         private void GameOVer()
         {
+            var winner = "";
+            if (ScorePlayer1> ScorePlayer2)
+            {
+                winner = "Winner: Player 1";
+            }
+            else if (ScorePlayer1 < ScorePlayer2)
+            {
+                winner = "Winner: Player 2";
+            }
+            else
+            {
+                winner = "Tie";
+            }
+
             if (lstMatchButtons1.Where(b => b.Enabled== true).Count() == 0 && lstMatchButtons2.Where(b => b.Enabled == true).Count() == 0)
             {
-                lblGameStatus.Text = "Game Over- Press Start to play again";
+                lblGameStatus.Text =  winner  +Environment.NewLine +"Game Over- Press Start to play again ";
             }
         }
         private void Card2Clicked(object? sender, EventArgs e)
