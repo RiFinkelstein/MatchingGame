@@ -109,9 +109,14 @@ namespace MatchingGameApp
                     MatchPart2 = null;
                     lstMatchButtons2.ForEach(b => b.Click += Card2Clicked);
                     lstMatchButtons1.ForEach(b => b.Click += Card1Clicked);
-                    GameOver();
+                    //GameOver();
                     if (GameOver()== false){
                         SwitchTurn();
+                        lblGameStatus.Text = "Current Turn: " + CurrentTurn;
+                    }
+                    else
+                    {
+                        GameOver();
                     }
                 }
                 else
@@ -119,22 +124,32 @@ namespace MatchingGameApp
                     //when the wrong match is turned over then the progam waits a few seconds and then turns the cards back over
                     await Task.Delay(1000);
                     // Reset unmatched buttons to dark blue
-                    
-                    MatchPart1.ForeColor = Color.DarkBlue;
-                    MatchPart2.ForeColor = Color.DarkBlue;
+                    if (MatchPart1 != null)
+                    {
+                        MatchPart1.ForeColor = Color.DarkBlue;
+                    }
+                    if (MatchPart2 != null)
+                    {
+                        MatchPart2.ForeColor = Color.DarkBlue;
+
+                    }
                     MatchPart1 = null;
                     MatchPart2 = null;
                     lstMatchButtons2.ForEach(b => b.Click += Card2Clicked);
                     lstMatchButtons1.ForEach(b => b.Click += Card1Clicked);
 
+
                     SwitchTurn();
+                    lblGameStatus.Text = "Current Turn: " + CurrentTurn;
+
                 }
-                lblGameStatus.Text = "Current Turn: " + CurrentTurn;
             }
         }
         
         private async void DoComputerTurn()
         {
+            lstMatchButtons2.ForEach(b => b.Click -= Card2Clicked);
+            lstMatchButtons1.ForEach(b => b.Click -= Card1Clicked);
             await Task.Delay(1000);
             CurrentTurn = TurnEnum.Player2;
             lblGameStatus.Text = "Current Turn: " + CurrentTurn;
@@ -148,7 +163,6 @@ namespace MatchingGameApp
             RevealPictures2(btn2);
             MatchPart2 = btn2;
             CheckMatch();
-            
         }
 
         private void SwitchTurn()
