@@ -96,17 +96,19 @@ namespace MatchingGameApp
                     if (CurrentTurn== TurnEnum.Player1)
                     {
                         ScorePlayer1++;
-                        lblPlayer1Score.Text = CurrentTurn + ": "+ ScorePlayer1.ToString();
+                        lblPlayer1Score.Text ="Player 1: "+ ScorePlayer1.ToString();
                     }
                     else
                     {
                         ScorePlayer2++;
-                        lblPlayer2Score.Text = CurrentTurn+ ": " + ScorePlayer2.ToString();
+                        lblPlayer2Score.Text = "Player 2: " + ScorePlayer2.ToString();
                     }
                     MatchPart1.Enabled = false;
                     MatchPart2.Enabled = false;
                     MatchPart1 = null;
                     MatchPart2 = null;
+                    lstMatchButtons2.ForEach(b => b.Click += Card2Clicked);
+                    lstMatchButtons1.ForEach(b => b.Click += Card1Clicked);
                     GameOver();
                     if (GameOver()== false){
                         SwitchTurn();
@@ -115,20 +117,19 @@ namespace MatchingGameApp
                 else
                 {
                     //when the wrong match is turned over then the progam waits a few seconds and then turns the cards back over
-                        await Task.Delay(1000);
-                    {
-                        // Reset unmatched buttons to dark blue
-                        MatchPart1.ForeColor = Color.DarkBlue;
-                        MatchPart2.ForeColor = Color.DarkBlue;
-                        lblGameStatus.Text = "Current Turn: ";
-                        MatchPart1 = null;
-                        MatchPart2 = null;
-                        SwitchTurn();
-                        lblGameStatus.Text = "Current Turn: " + CurrentTurn;
-                    }
+                    await Task.Delay(1000);
+                    // Reset unmatched buttons to dark blue
+                    
+                    MatchPart1.ForeColor = Color.DarkBlue;
+                    MatchPart2.ForeColor = Color.DarkBlue;
+                    MatchPart1 = null;
+                    MatchPart2 = null;
+                    lstMatchButtons2.ForEach(b => b.Click += Card2Clicked);
+                    lstMatchButtons1.ForEach(b => b.Click += Card1Clicked);
 
+                    SwitchTurn();
                 }
-
+                lblGameStatus.Text = "Current Turn: " + CurrentTurn;
             }
         }
         
@@ -197,6 +198,7 @@ namespace MatchingGameApp
             {
                 RevealPictures2((Button)sender);
                 CheckMatch();
+                lstMatchButtons2.ForEach(b => b.Click -= Card2Clicked);
             }
         }
 
@@ -206,6 +208,8 @@ namespace MatchingGameApp
             {
                 RevealPictures1((Button)sender);
                 CheckMatch();
+                lstMatchButtons1.ForEach(b => b.Click -= Card1Clicked);
+
             }
         }
 
