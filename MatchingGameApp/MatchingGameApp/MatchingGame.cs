@@ -75,7 +75,6 @@ namespace MatchingGameApp
             {
                 btn.ForeColor = Color.White;
                 MatchPart1 = btn;
-
             }
         }
 
@@ -85,11 +84,10 @@ namespace MatchingGameApp
             {
                 btn.ForeColor = Color.White;
                 MatchPart2 = btn;
-
             }
         }
 
-        private void CheckMatch()
+        private async void CheckMatch()
         {
             if (MatchPart1 != null && MatchPart2 != null)
             {
@@ -109,16 +107,15 @@ namespace MatchingGameApp
                     MatchPart2.Enabled = false;
                     MatchPart1 = null;
                     MatchPart2 = null;
-                    GameOVer();
+                    GameOver();
+                    if (GameOver()== false){
+                        SwitchTurn();
+                    }
                 }
                 else
                 {
                     //when the wrong match is turned over then the progam waits a few seconds and then turns the cards back over
-                    var t = Task.Run(async delegate
-                    {
                         await Task.Delay(1000);
-                    });
-                    t.Wait();
                     {
                         // Reset unmatched buttons to dark blue
                         MatchPart1.ForeColor = Color.DarkBlue;
@@ -135,27 +132,22 @@ namespace MatchingGameApp
             }
         }
         
-        private void DoComputerTurn()
+        private async void DoComputerTurn()
         {
+            await Task.Delay(1000);
             CurrentTurn = TurnEnum.Player2;
             lblGameStatus.Text = "Current Turn: " + CurrentTurn;
-            var t = Task.Run(async delegate
-            {
-                await Task.Delay(1000);
-            });
-            t.Wait();
-            {
-                CurrentTurn = TurnEnum.Player2;
-                var lst1 = lstMatchButtons1.Where(b => b.Enabled == true).ToList();
-                var btn1 = lst1[new Random().Next(0, lst1.Count())];
-                RevealPictures1(btn1);
-                MatchPart1 = btn1;
-                var lst2 = lstMatchButtons2.Where(b => b.Enabled == true).ToList();
-                var btn2 = lst2[new Random().Next(0, lst2.Count())];
-                RevealPictures2(btn2);
-                MatchPart2 = btn2;
-                CheckMatch();
-            }
+            CurrentTurn = TurnEnum.Player2;
+            var lst1 = lstMatchButtons1.Where(b => b.Enabled == true).ToList();
+            var btn1 = lst1[new Random().Next(0, lst1.Count())];
+            RevealPictures1(btn1);
+            MatchPart1 = btn1;
+            var lst2 = lstMatchButtons2.Where(b => b.Enabled == true).ToList();
+            var btn2 = lst2[new Random().Next(0, lst2.Count())];
+            RevealPictures2(btn2);
+            MatchPart2 = btn2;
+            CheckMatch();
+            
         }
 
         private void SwitchTurn()
@@ -176,7 +168,7 @@ namespace MatchingGameApp
 
         }
 
-        private void GameOVer()
+        private bool GameOver()
         {
             var winner = "";
             if (ScorePlayer1> ScorePlayer2)
@@ -195,7 +187,9 @@ namespace MatchingGameApp
             if (lstMatchButtons1.Where(b => b.Enabled== true).Count() == 0 && lstMatchButtons2.Where(b => b.Enabled == true).Count() == 0)
             {
                 lblGameStatus.Text =  winner  +Environment.NewLine +"Game Over- Press Restart to play again ";
+                return true;
             }
+            return false;
         }
         private void Card2Clicked(object? sender, EventArgs e)
         {
