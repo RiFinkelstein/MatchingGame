@@ -67,7 +67,7 @@ namespace MatchingGameApp
             MatchPart2.Enabled = false; 
         }
 
-        private void enableButtons(List<Button> buttons)
+        private void EnableButtons(List<Button> buttons)
         {
             buttons.ForEach(b=>b.Enabled = true);
         }
@@ -100,8 +100,21 @@ namespace MatchingGameApp
             EnableButtonClicks(lstMatchButtons2, Card2Clicked);
         }
 
+        private void UpdateScore()
+        {
+            if (CurrentTurn == TurnEnum.Player1)
+            {
+                ScorePlayer1++;
+                lblPlayer1Score.Text = "Player 1: " + ScorePlayer1.ToString();
+            }
+            else
+            {
+                ScorePlayer2++;
+                lblPlayer2Score.Text = "Player 2: " + ScorePlayer2.ToString();
+            }
+        }
 
-        private void AddWordsToButton()
+            private void AddWordsToButton()
         {
             Random rnd = new();
             lstMatchButtons1 = lstMatchButtons1.OrderBy(x => rnd.Next()).ToList();
@@ -115,19 +128,8 @@ namespace MatchingGameApp
             }
         }
 
-        private void UpdateScore() {
-            if (CurrentTurn == TurnEnum.Player1)
-            {
-                ScorePlayer1++;
-                lblPlayer1Score.Text = "Player 1: " + ScorePlayer1.ToString();
-            }
-            else
-            {
-                ScorePlayer2++;
-                lblPlayer2Score.Text = "Player 2: " + ScorePlayer2.ToString();
-            }
 
-        }
+        
 
 
         private void RevealPictures1(Button btn)
@@ -157,7 +159,7 @@ namespace MatchingGameApp
                     UpdateScore();
                     DisableMatchButtons();
                     ResetMatchParts();
-                    if (GameOver() == false)
+                    if (!GameOver())
                     {
                         SwitchTurn();
                         lblGameStatus.Text = "Current Turn: " + CurrentTurn;
@@ -197,14 +199,17 @@ namespace MatchingGameApp
             CurrentTurn = TurnEnum.Player2;
             lblGameStatus.Text = "Current Turn: " + CurrentTurn;
             CurrentTurn = TurnEnum.Player2;
-            var lst1 = lstMatchButtons1.Where(b => b.Enabled == true).ToList();
-            var btn1 = lst1[new Random().Next(0, lst1.Count())];
+
+            var availablebuttons1 = lstMatchButtons1.Where(b => b.Enabled == true).ToList();
+            var btn1 = availablebuttons1[new Random().Next(0, availablebuttons1.Count())];
             RevealPictures1(btn1);
             MatchPart1 = btn1;
-            var lst2 = lstMatchButtons2.Where(b => b.Enabled == true).ToList();
-            var btn2 = lst2[new Random().Next(0, lst2.Count())];
+
+            var availablebuttons2 = lstMatchButtons2.Where(b => b.Enabled == true).ToList();
+            var btn2 = availablebuttons2[new Random().Next(0, availablebuttons2.Count())];
             RevealPictures2(btn2);
             MatchPart2 = btn2;
+
             CheckMatch();
         }
 
@@ -273,8 +278,8 @@ namespace MatchingGameApp
         private void BtnStart_Click(object? sender, EventArgs e)
         {
             MessageBox.Show("Rules of the game: \r\n\r\n Select Mode: Choose to play either with another player (2-player mode) or against the computer (Player 2 is the computer).\r\n\r\nGameplay:\r\n\r\nTurn Structure: Players take turns choosing a card from the top 8 and a card from the bottom 8.\r\nMatching: If the chosen cards match, the player receives a point, and the matched cards turn black.\r\nNon-Matching: If the cards do not match, they will flip back over after a one-second delay.\r\nNext Turn: After a turn, Player 2 (or the computer) will play its turn.");
-            enableButtons(lstMatchButtons1);
-            enableButtons(lstMatchButtons2);
+            EnableButtons(lstMatchButtons1);
+            EnableButtons(lstMatchButtons2);
 
             SetButtonForeColor(lstMatchButtons1, Color.DarkBlue);
             SetButtonForeColor(lstMatchButtons2, Color.DarkBlue);
