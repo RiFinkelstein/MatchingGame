@@ -13,7 +13,7 @@ namespace MatchingGameApp
     public partial class MatchingGame : Form
     {
 
-        enum TurnEnum { Player1, Player2 };
+        enum TurnEnum { Player1, Player2};
         TurnEnum CurrentTurn= TurnEnum.Player1;
 
         Button MatchPart1;
@@ -28,7 +28,6 @@ namespace MatchingGameApp
         int ScorePlayer2 = 0;
 
 
-
         public MatchingGame()
         {
             InitializeComponent();
@@ -38,21 +37,68 @@ namespace MatchingGameApp
             lstMatchButtons1 = new() { btnMatch1, btnMatch2, btnMatch3, btnMatch4, btnMatch5, btnMatch6, btnMatch7, btnMatch8 };
             lstMatchButtons2 = new() { btnMatch9, btnMatch10, btnMatch11, btnMatch12, btnMatch13, btnMatch14, btnMatch15, btnMatch16 };
 
+            DisableButtons(lstMatchButtons1);
+            DisableButtons(lstMatchButtons2);
 
             lstMatchButtons1.ForEach(b => b.Click += Card1Clicked);
             lstMatchButtons2.ForEach(b => b.Click += Card2Clicked);
 
             lstMatchStrings = new() { "A", "B", "C", "D", "E", "F", "G", "H" };
-            lstMatchButtons1.ForEach(b => b.Enabled = false);
-            lstMatchButtons2.ForEach(b => b.Enabled = false);
-            lstMatchButtons1.ForEach(b => b.ForeColor = Color.DarkBlue);
-            lstMatchButtons2.ForEach(b => b.ForeColor = Color.DarkBlue);
 
+
+            SetButtonForeColor(lstMatchButtons1, Color.DarkBlue);
+            SetButtonForeColor(lstMatchButtons2, Color.DarkBlue);
 
             lblGameStatus.Text = "Click Start to begin game";
         }
 
+        private void ResetScore()
+        {
+            ScorePlayer1 = 0;
+            ScorePlayer2 = 0;
+            lblPlayer1Score.Text = "PLayer 1: 0";
+            lblPlayer2Score.Text = "PLayer 2: 0";
+        }
 
+
+        private void DisableMatchButtons()
+        {
+            MatchPart1.Enabled = false;
+            MatchPart2.Enabled = false; 
+        }
+
+        private void enableButtons(List<Button> buttons)
+        {
+            buttons.ForEach(b=>b.Enabled = true);
+        }
+
+        private void EnableButtonClicks(List<Button> buttons, EventHandler clickhandler)
+        {
+            buttons.ForEach(b=> b.Click += clickhandler);
+        }
+
+        private void DisableButtons(List<Button> buttons)
+        {
+            buttons.ForEach(b => b.Enabled = false);
+        }
+
+        private void DisableButtonClicks(List<Button> buttons, EventHandler clickhandler)
+        {
+            buttons.ForEach(b => b.Click -= clickhandler);
+        }
+
+        private void SetButtonForeColor(List<Button> buttons, Color clr)
+        {
+            buttons.ForEach(b => b.ForeColor = clr);
+        }
+
+        private void ResetMatchParts()
+        {
+            MatchPart1 = null;
+            MatchPart2 = null;
+            EnableButtonClicks(lstMatchButtons1, Card1Clicked);
+            EnableButtonClicks(lstMatchButtons2, Card2Clicked);
+        }
 
 
         private void AddWordsToButton()
@@ -68,6 +114,21 @@ namespace MatchingGameApp
                 lstMatchButtons2[i].Text = lstMatchStrings[i];
             }
         }
+
+        private void UpdateScore() {
+            if (CurrentTurn == TurnEnum.Player1)
+            {
+                ScorePlayer1++;
+                lblPlayer1Score.Text = "Player 1: " + ScorePlayer1.ToString();
+            }
+            else
+            {
+                ScorePlayer2++;
+                lblPlayer2Score.Text = "Player 2: " + ScorePlayer2.ToString();
+            }
+
+        }
+
 
         private void RevealPictures1(Button btn)
         {
@@ -93,24 +154,11 @@ namespace MatchingGameApp
             {
                 if (MatchPart1.Text == MatchPart2.Text)
                 {
-                    if (CurrentTurn== TurnEnum.Player1)
+                    UpdateScore();
+                    DisableMatchButtons();
+                    ResetMatchParts();
+                    if (GameOver() == false)
                     {
-                        ScorePlayer1++;
-                        lblPlayer1Score.Text ="Player 1: "+ ScorePlayer1.ToString();
-                    }
-                    else
-                    {
-                        ScorePlayer2++;
-                        lblPlayer2Score.Text = "Player 2: " + ScorePlayer2.ToString();
-                    }
-                    MatchPart1.Enabled = false;
-                    MatchPart2.Enabled = false;
-                    MatchPart1 = null;
-                    MatchPart2 = null;
-                    lstMatchButtons2.ForEach(b => b.Click += Card2Clicked);
-                    lstMatchButtons1.ForEach(b => b.Click += Card1Clicked);
-                    //GameOver();
-                    if (GameOver()== false){
                         SwitchTurn();
                         lblGameStatus.Text = "Current Turn: " + CurrentTurn;
                     }
@@ -133,12 +181,7 @@ namespace MatchingGameApp
                         MatchPart2.ForeColor = Color.DarkBlue;
 
                     }
-                    MatchPart1 = null;
-                    MatchPart2 = null;
-                    lstMatchButtons2.ForEach(b => b.Click += Card2Clicked);
-                    lstMatchButtons1.ForEach(b => b.Click += Card1Clicked);
-
-
+                    ResetMatchParts();
                     SwitchTurn();
                     lblGameStatus.Text = "Current Turn: " + CurrentTurn;
 
@@ -148,8 +191,8 @@ namespace MatchingGameApp
         
         private async void DoComputerTurn()
         {
-            lstMatchButtons2.ForEach(b => b.Click -= Card2Clicked);
-            lstMatchButtons1.ForEach(b => b.Click -= Card1Clicked);
+            DisableButtonClicks(lstMatchButtons2, Card2Clicked);
+            DisableButtonClicks(lstMatchButtons1, Card1Clicked);
             await Task.Delay(1000);
             CurrentTurn = TurnEnum.Player2;
             lblGameStatus.Text = "Current Turn: " + CurrentTurn;
@@ -212,7 +255,7 @@ namespace MatchingGameApp
             {
                 RevealPictures2((Button)sender);
                 CheckMatch();
-                lstMatchButtons2.ForEach(b => b.Click -= Card2Clicked);
+                DisableButtonClicks(lstMatchButtons2, Card2Clicked);
             }
         }
 
@@ -222,23 +265,22 @@ namespace MatchingGameApp
             {
                 RevealPictures1((Button)sender);
                 CheckMatch();
-                lstMatchButtons1.ForEach(b => b.Click -= Card1Clicked);
-
+                DisableButtonClicks(lstMatchButtons1, Card1Clicked);
             }
         }
 
 
         private void BtnStart_Click(object? sender, EventArgs e)
         {
-            lstMatchButtons1.ForEach(b => b.Enabled = true);
-            lstMatchButtons2.ForEach(b => b.Enabled = true);
-            lstMatchButtons1.ForEach(b => b.ForeColor = Color.DarkBlue);
-            lstMatchButtons2.ForEach(b => b.ForeColor = Color.DarkBlue);
-            lblPlayer1Score.Text = "Player 1: 0";
-            lblPlayer2Score.Text = "Player 2: 0";
+            MessageBox.Show("Rules of the game: \r\n\r\n Select Mode: Choose to play either with another player (2-player mode) or against the computer (Player 2 is the computer).\r\n\r\nGameplay:\r\n\r\nTurn Structure: Players take turns choosing a card from the top 8 and a card from the bottom 8.\r\nMatching: If the chosen cards match, the player receives a point, and the matched cards turn black.\r\nNon-Matching: If the cards do not match, they will flip back over after a one-second delay.\r\nNext Turn: After a turn, Player 2 (or the computer) will play its turn.");
+            enableButtons(lstMatchButtons1);
+            enableButtons(lstMatchButtons2);
+
+            SetButtonForeColor(lstMatchButtons1, Color.DarkBlue);
+            SetButtonForeColor(lstMatchButtons2, Color.DarkBlue);
+
             lblGameStatus.Text = "Current Turn: "+ TurnEnum.Player1;
-            ScorePlayer1 = 0;
-            ScorePlayer2 = 0;
+            ResetScore();
             AddWordsToButton();
             btnStart.Text = "Restart";
 
