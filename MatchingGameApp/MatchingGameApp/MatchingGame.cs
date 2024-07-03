@@ -22,6 +22,7 @@ namespace MatchingGameApp
 
         List<Button> lstMatchButtons1;
         List<Button> lstMatchButtons2;
+        List<Button> lstAllMatchButtons;
         List<string> lstMatchStrings;
 
         int ScorePlayer1 = 0;
@@ -36,7 +37,10 @@ namespace MatchingGameApp
 
             lstMatchButtons1 = new() { btnMatch1, btnMatch2, btnMatch3, btnMatch4, btnMatch5, btnMatch6, btnMatch7, btnMatch8 };
             lstMatchButtons2 = new() { btnMatch9, btnMatch10, btnMatch11, btnMatch12, btnMatch13, btnMatch14, btnMatch15, btnMatch16 };
-//AS Make a third list of all the buttons combined. This way, any place that you repeated something for the 2 lists of buttons you can update to just use this one combined list.
+            //AS Make a third list of all the buttons combined. This way, any place that you repeated something for the 2 lists of buttons you can update to just use this one combined list.
+            lstAllMatchButtons = new() { btnMatch1, btnMatch2, btnMatch3, btnMatch4, btnMatch5, btnMatch6, btnMatch7, btnMatch8, btnMatch9, btnMatch10, btnMatch11, btnMatch12, btnMatch13, btnMatch14, btnMatch15, btnMatch16 };
+
+
             DisableButtons(lstMatchButtons1);
             DisableButtons(lstMatchButtons2);
 
@@ -128,27 +132,37 @@ namespace MatchingGameApp
             }
         }
 
+        private void Start()
+        {
+            MessageBox.Show("Rules of the game: \r\n\r\n Select Mode: Choose to play either with another player (2-player mode) or against the computer (Player 2 is the computer).\r\n\r\nGameplay:\r\n\r\nTurn Structure: Players take turns choosing a card from the top 8 and a card from the bottom 8.\r\nMatching: If the chosen cards match, the player receives a point, and the matched cards turn black.\r\nNon-Matching: If the cards do not match, they will flip back over after a one-second delay.\r\nNext Turn: After a turn, Player 2 (or the computer) will play its turn.");
+            EnableButtons(lstAllMatchButtons);
 
+            SetButtonForeColor(lstAllMatchButtons, Color.DarkBlue);
+
+            lblGameStatus.Text = "Current Turn: " + TurnEnum.Player1;
+            ResetScore();
+            AddWordsToButton();
+            btnStart.Text = "Restart";
+        }
         
-
-//AS Combine these 2 procedures.
-        private void RevealPictures1(Button btn)
+        private void RevealPicture(Button btn, int part)
         {
             if (btn.ForeColor == Color.DarkBlue)
             {
                 btn.ForeColor = Color.White;
-                MatchPart1 = btn;
+                if (part == 1)
+                {
+                    MatchPart1 = btn;
+                }
+                else if(part == 2)
+                {
+                    MatchPart2 = btn;
+                }
+
             }
         }
 
-        private void RevealPictures2(Button btn)
-        {
-            if (btn.ForeColor == Color.DarkBlue)
-            {
-                btn.ForeColor = Color.White;
-                MatchPart2 = btn;
-            }
-        }
+        //AS Combine these 2 procedures.
 
         private async void CheckMatch()
         {
@@ -254,11 +268,13 @@ namespace MatchingGameApp
             }
             return false;
         }
+
+
         private void Card2Clicked(object? sender, EventArgs e)
         {
             if (sender is Button)
             {
-                RevealPictures2((Button)sender);
+                RevealPicture((Button)sender, 2);
                 CheckMatch();
                 DisableButtonClicks(lstMatchButtons2, Card2Clicked);
             }
@@ -268,7 +284,7 @@ namespace MatchingGameApp
         {
             if (sender is Button)
             {
-                RevealPictures1((Button)sender);
+                RevealPicture((Button)sender, 1);
                 CheckMatch();
                 DisableButtonClicks(lstMatchButtons1, Card1Clicked);
             }
@@ -277,18 +293,7 @@ namespace MatchingGameApp
 //AS This is a lot of code to have in the event handler, move it out into a separate procedure and call it from here.
         private void BtnStart_Click(object? sender, EventArgs e)
         {
-            MessageBox.Show("Rules of the game: \r\n\r\n Select Mode: Choose to play either with another player (2-player mode) or against the computer (Player 2 is the computer).\r\n\r\nGameplay:\r\n\r\nTurn Structure: Players take turns choosing a card from the top 8 and a card from the bottom 8.\r\nMatching: If the chosen cards match, the player receives a point, and the matched cards turn black.\r\nNon-Matching: If the cards do not match, they will flip back over after a one-second delay.\r\nNext Turn: After a turn, Player 2 (or the computer) will play its turn.");
-            EnableButtons(lstMatchButtons1);
-            EnableButtons(lstMatchButtons2);
-
-            SetButtonForeColor(lstMatchButtons1, Color.DarkBlue);
-            SetButtonForeColor(lstMatchButtons2, Color.DarkBlue);
-
-            lblGameStatus.Text = "Current Turn: "+ TurnEnum.Player1;
-            ResetScore();
-            AddWordsToButton();
-            btnStart.Text = "Restart";
-
+            Start();
         }
     }
 }
