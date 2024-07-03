@@ -334,10 +334,10 @@
             // 
             // btnMatch9
             // 
-            btnMatch9.BackColor = Color.LightBlue;
+            btnMatch9.BackColor = Color.LightPink;
             btnMatch9.Dock = DockStyle.Fill;
             btnMatch9.Font = new Font("Wingdings", 40.2F);
-            btnMatch9.ForeColor = Color.LightBlue;
+            btnMatch9.ForeColor = Color.LightPink;
             btnMatch9.Location = new Point(3, 279);
             btnMatch9.Name = "btnMatch9";
             btnMatch9.Size = new Size(192, 132);
@@ -346,10 +346,10 @@
             // 
             // btnMatch10
             // 
-            btnMatch10.BackColor = Color.LightBlue;
+            btnMatch10.BackColor = Color.LightPink;
             btnMatch10.Dock = DockStyle.Fill;
             btnMatch10.Font = new Font("Wingdings", 40.2F);
-            btnMatch10.ForeColor = Color.LightBlue;
+            btnMatch10.ForeColor = Color.LightPink;
             btnMatch10.Location = new Point(201, 279);
             btnMatch10.Name = "btnMatch10";
             btnMatch10.Size = new Size(192, 132);
@@ -358,10 +358,10 @@
             // 
             // btnMatch11
             // 
-            btnMatch11.BackColor = Color.LightBlue;
+            btnMatch11.BackColor = Color.LightPink;
             btnMatch11.Dock = DockStyle.Fill;
             btnMatch11.Font = new Font("Wingdings", 40.2F);
-            btnMatch11.ForeColor = Color.LightBlue;
+            btnMatch11.ForeColor = Color.LightPink;
             btnMatch11.Location = new Point(399, 279);
             btnMatch11.Name = "btnMatch11";
             btnMatch11.Size = new Size(192, 132);
@@ -370,10 +370,10 @@
             // 
             // btnMatch12
             // 
-            btnMatch12.BackColor = Color.LightBlue;
+            btnMatch12.BackColor = Color.LightPink;
             btnMatch12.Dock = DockStyle.Fill;
             btnMatch12.Font = new Font("Wingdings", 40.2F);
-            btnMatch12.ForeColor = Color.LightBlue;
+            btnMatch12.ForeColor = Color.LightPink;
             btnMatch12.Location = new Point(597, 279);
             btnMatch12.Name = "btnMatch12";
             btnMatch12.Size = new Size(194, 132);
@@ -382,10 +382,10 @@
             // 
             // btnMatch13
             // 
-            btnMatch13.BackColor = Color.LightBlue;
+            btnMatch13.BackColor = Color.LightPink;
             btnMatch13.Dock = DockStyle.Fill;
             btnMatch13.Font = new Font("Wingdings", 40.2F);
-            btnMatch13.ForeColor = Color.LightBlue;
+            btnMatch13.ForeColor = Color.LightPink;
             btnMatch13.Location = new Point(3, 417);
             btnMatch13.Name = "btnMatch13";
             btnMatch13.Size = new Size(192, 134);
@@ -394,10 +394,10 @@
             // 
             // btnMatch14
             // 
-            btnMatch14.BackColor = Color.LightBlue;
+            btnMatch14.BackColor = Color.LightPink;
             btnMatch14.Dock = DockStyle.Fill;
             btnMatch14.Font = new Font("Wingdings", 40.2F);
-            btnMatch14.ForeColor = Color.LightBlue;
+            btnMatch14.ForeColor = Color.LightPink;
             btnMatch14.Location = new Point(201, 417);
             btnMatch14.Name = "btnMatch14";
             btnMatch14.Size = new Size(192, 134);
@@ -406,10 +406,10 @@
             // 
             // btnMatch15
             // 
-            btnMatch15.BackColor = Color.LightBlue;
+            btnMatch15.BackColor = Color.LightPink;
             btnMatch15.Dock = DockStyle.Fill;
             btnMatch15.Font = new Font("Wingdings", 40.2F);
-            btnMatch15.ForeColor = Color.LightBlue;
+            btnMatch15.ForeColor = Color.LightPink;
             btnMatch15.Location = new Point(399, 417);
             btnMatch15.Name = "btnMatch15";
             btnMatch15.Size = new Size(192, 134);
@@ -418,10 +418,10 @@
             // 
             // btnMatch16
             // 
-            btnMatch16.BackColor = Color.LightBlue;
+            btnMatch16.BackColor = Color.LightPink;
             btnMatch16.Dock = DockStyle.Fill;
             btnMatch16.Font = new Font("Wingdings", 40.2F);
-            btnMatch16.ForeColor = Color.LightBlue;
+            btnMatch16.ForeColor = Color.LightPink;
             btnMatch16.Location = new Point(597, 417);
             btnMatch16.Name = "btnMatch16";
             btnMatch16.Size = new Size(194, 134);

@@ -51,7 +51,7 @@ namespace MatchingGameApp
 
 
             SetButtonForeColor(lstMatchButtons1, Color.LightBlue);
-            SetButtonForeColor(lstMatchButtons2, Color.LightBlue);
+            SetButtonForeColor(lstMatchButtons2, Color.LightPink);
 
             lblGameStatus.Text = "Click Start to begin game";
         }
@@ -137,7 +137,9 @@ namespace MatchingGameApp
             MessageBox.Show("Rules of the game: \r\n\r\n Select Mode: Choose to play either with another player (2-player mode) or against the computer (Player 2 is the computer).\r\n\r\nGameplay:\r\n\r\nTurn Structure: Players take turns choosing a card from the top 8 and a card from the bottom 8.\r\nMatching: If the chosen cards match, the player receives a point, and the matched cards turn black.\r\nNon-Matching: If the cards do not match, they will flip back over after a one-second delay.\r\nNext Turn: After a turn, Player 2 (or the computer) will play its turn.");
             EnableButtons(lstAllMatchButtons);
 
-            SetButtonForeColor(lstAllMatchButtons, Color.LightBlue);
+            SetButtonForeColor(lstMatchButtons1, Color.LightBlue);
+            SetButtonForeColor(lstMatchButtons2, Color.LightPink);
+
 
             lblGameStatus.Text = "Current Turn: " + TurnEnum.Player1;
             ResetScore();
@@ -147,9 +149,9 @@ namespace MatchingGameApp
         
         private void RevealPicture(Button btn, int part)
         {
-            if (btn.ForeColor == Color.LightBlue)
+            if (btn.ForeColor == Color.LightBlue || btn.ForeColor == Color.LightPink)
             {
-                btn.ForeColor = Color.DarkBlue;
+                btn.ForeColor = Color.Black;
                 if (part == 1)
                 {
                     MatchPart1 = btn;
@@ -194,7 +196,7 @@ namespace MatchingGameApp
                     }
                     if (MatchPart2 != null)
                     {
-                        MatchPart2.ForeColor = Color.LightBlue;
+                        MatchPart2.ForeColor = Color.LightPink;
 
                     }
                     ResetMatchParts();
