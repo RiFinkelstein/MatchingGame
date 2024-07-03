@@ -43,8 +43,7 @@ namespace MatchingGameApp
             lstAllMatchButtons = new() { btnMatch1, btnMatch2, btnMatch3, btnMatch4, btnMatch5, btnMatch6, btnMatch7, btnMatch8, btnMatch9, btnMatch10, btnMatch11, btnMatch12, btnMatch13, btnMatch14, btnMatch15, btnMatch16 };
 
 
-            DisableButtons(lstMatchButtons1);
-            DisableButtons(lstMatchButtons2);
+            DisableButtons(lstAllMatchButtons);
 
             lstMatchButtons1.ForEach(b => b.Click += Card1Clicked);
             lstMatchButtons2.ForEach(b => b.Click += Card2Clicked);
