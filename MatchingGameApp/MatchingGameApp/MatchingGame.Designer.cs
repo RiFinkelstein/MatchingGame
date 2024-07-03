@@ -238,10 +238,10 @@
             // 
             // btnMatch1
             // 
-            btnMatch1.BackColor = Color.DarkBlue;
+            btnMatch1.BackColor = Color.LightBlue;
             btnMatch1.Dock = DockStyle.Fill;
             btnMatch1.Font = new Font("Wingdings", 40.2F);
-            btnMatch1.ForeColor = SystemColors.ButtonHighlight;
+            btnMatch1.ForeColor = Color.LightBlue;
             btnMatch1.Location = new Point(3, 3);
             btnMatch1.Name = "btnMatch1";
             btnMatch1.Size = new Size(192, 132);
@@ -250,10 +250,10 @@
             // 
             // btnMatch2
             // 
-            btnMatch2.BackColor = Color.DarkBlue;
+            btnMatch2.BackColor = Color.LightBlue;
             btnMatch2.Dock = DockStyle.Fill;
             btnMatch2.Font = new Font("Wingdings", 40.2F);
-            btnMatch2.ForeColor = SystemColors.ButtonHighlight;
+            btnMatch2.ForeColor = Color.LightBlue;
             btnMatch2.Location = new Point(201, 3);
             btnMatch2.Name = "btnMatch2";
             btnMatch2.Size = new Size(192, 132);
@@ -262,10 +262,10 @@
             // 
             // btnMatch3
             // 
-            btnMatch3.BackColor = Color.DarkBlue;
+            btnMatch3.BackColor = Color.LightBlue;
             btnMatch3.Dock = DockStyle.Fill;
             btnMatch3.Font = new Font("Wingdings", 40.2F);
-            btnMatch3.ForeColor = SystemColors.ButtonHighlight;
+            btnMatch3.ForeColor = Color.LightBlue;
             btnMatch3.Location = new Point(399, 3);
             btnMatch3.Name = "btnMatch3";
             btnMatch3.Size = new Size(192, 132);
@@ -274,10 +274,10 @@
             // 
             // btnMatch4
             // 
-            btnMatch4.BackColor = Color.DarkBlue;
+            btnMatch4.BackColor = Color.LightBlue;
             btnMatch4.Dock = DockStyle.Fill;
             btnMatch4.Font = new Font("Wingdings", 40.2F);
-            btnMatch4.ForeColor = SystemColors.ButtonHighlight;
+            btnMatch4.ForeColor = Color.LightBlue;
             btnMatch4.Location = new Point(597, 3);
             btnMatch4.Name = "btnMatch4";
             btnMatch4.Size = new Size(194, 132);
@@ -286,10 +286,10 @@
             // 
             // btnMatch5
             // 
-            btnMatch5.BackColor = Color.DarkBlue;
+            btnMatch5.BackColor = Color.LightBlue;
             btnMatch5.Dock = DockStyle.Fill;
             btnMatch5.Font = new Font("Wingdings", 40.2F);
-            btnMatch5.ForeColor = SystemColors.ButtonHighlight;
+            btnMatch5.ForeColor = Color.LightBlue;
             btnMatch5.Location = new Point(3, 141);
             btnMatch5.Name = "btnMatch5";
             btnMatch5.Size = new Size(192, 132);
@@ -298,10 +298,10 @@
             // 
             // btnMatch6
             // 
-            btnMatch6.BackColor = Color.DarkBlue;
+            btnMatch6.BackColor = Color.LightBlue;
             btnMatch6.Dock = DockStyle.Fill;
             btnMatch6.Font = new Font("Wingdings", 40.2F);
-            btnMatch6.ForeColor = SystemColors.ButtonHighlight;
+            btnMatch6.ForeColor = Color.LightBlue;
             btnMatch6.Location = new Point(201, 141);
             btnMatch6.Name = "btnMatch6";
             btnMatch6.Size = new Size(192, 132);
@@ -310,10 +310,10 @@
             // 
             // btnMatch7
             // 
-            btnMatch7.BackColor = Color.DarkBlue;
+            btnMatch7.BackColor = Color.LightBlue;
             btnMatch7.Dock = DockStyle.Fill;
             btnMatch7.Font = new Font("Wingdings", 40.2F);
-            btnMatch7.ForeColor = SystemColors.ButtonHighlight;
+            btnMatch7.ForeColor = Color.LightBlue;
             btnMatch7.Location = new Point(399, 141);
             btnMatch7.Name = "btnMatch7";
             btnMatch7.Size = new Size(192, 132);
@@ -322,10 +322,10 @@
             // 
             // btnMatch8
             // 
-            btnMatch8.BackColor = Color.DarkBlue;
+            btnMatch8.BackColor = Color.LightBlue;
             btnMatch8.Dock = DockStyle.Fill;
             btnMatch8.Font = new Font("Wingdings", 40.2F);
-            btnMatch8.ForeColor = SystemColors.ButtonHighlight;
+            btnMatch8.ForeColor = Color.LightBlue;
             btnMatch8.Location = new Point(597, 141);
             btnMatch8.Name = "btnMatch8";
             btnMatch8.Size = new Size(194, 132);
@@ -334,10 +334,10 @@
             // 
             // btnMatch9
             // 
-            btnMatch9.BackColor = Color.DarkBlue;
+            btnMatch9.BackColor = Color.LightBlue;
             btnMatch9.Dock = DockStyle.Fill;
             btnMatch9.Font = new Font("Wingdings", 40.2F);
-            btnMatch9.ForeColor = SystemColors.ButtonHighlight;
+            btnMatch9.ForeColor = Color.LightBlue;
             btnMatch9.Location = new Point(3, 279);
             btnMatch9.Name = "btnMatch9";
             btnMatch9.Size = new Size(192, 132);
@@ -346,10 +346,10 @@
             // 
             // btnMatch10
             // 
-            btnMatch10.BackColor = Color.DarkBlue;
+            btnMatch10.BackColor = Color.LightBlue;
             btnMatch10.Dock = DockStyle.Fill;
             btnMatch10.Font = new Font("Wingdings", 40.2F);
-            btnMatch10.ForeColor = SystemColors.ButtonHighlight;
+            btnMatch10.ForeColor = Color.LightBlue;
             btnMatch10.Location = new Point(201, 279);
             btnMatch10.Name = "btnMatch10";
             btnMatch10.Size = new Size(192, 132);
@@ -358,10 +358,10 @@
             // 
             // btnMatch11
             // 
-            btnMatch11.BackColor = Color.DarkBlue;
+            btnMatch11.BackColor = Color.LightBlue;
             btnMatch11.Dock = DockStyle.Fill;
             btnMatch11.Font = new Font("Wingdings", 40.2F);
-            btnMatch11.ForeColor = SystemColors.ButtonHighlight;
+            btnMatch11.ForeColor = Color.LightBlue;
             btnMatch11.Location = new Point(399, 279);
             btnMatch11.Name = "btnMatch11";
             btnMatch11.Size = new Size(192, 132);
@@ -370,10 +370,10 @@
             // 
             // btnMatch12
             // 
-            btnMatch12.BackColor = Color.DarkBlue;
+            btnMatch12.BackColor = Color.LightBlue;
             btnMatch12.Dock = DockStyle.Fill;
             btnMatch12.Font = new Font("Wingdings", 40.2F);
-            btnMatch12.ForeColor = SystemColors.ButtonHighlight;
+            btnMatch12.ForeColor = Color.LightBlue;
             btnMatch12.Location = new Point(597, 279);
             btnMatch12.Name = "btnMatch12";
             btnMatch12.Size = new Size(194, 132);
@@ -382,10 +382,10 @@
             // 
             // btnMatch13
             // 
-            btnMatch13.BackColor = Color.DarkBlue;
+            btnMatch13.BackColor = Color.LightBlue;
             btnMatch13.Dock = DockStyle.Fill;
             btnMatch13.Font = new Font("Wingdings", 40.2F);
-            btnMatch13.ForeColor = SystemColors.ButtonHighlight;
+            btnMatch13.ForeColor = Color.LightBlue;
             btnMatch13.Location = new Point(3, 417);
             btnMatch13.Name = "btnMatch13";
             btnMatch13.Size = new Size(192, 134);
@@ -394,10 +394,10 @@
             // 
             // btnMatch14
             // 
-            btnMatch14.BackColor = Color.DarkBlue;
+            btnMatch14.BackColor = Color.LightBlue;
             btnMatch14.Dock = DockStyle.Fill;
             btnMatch14.Font = new Font("Wingdings", 40.2F);
-            btnMatch14.ForeColor = SystemColors.ButtonHighlight;
+            btnMatch14.ForeColor = Color.LightBlue;
             btnMatch14.Location = new Point(201, 417);
             btnMatch14.Name = "btnMatch14";
             btnMatch14.Size = new Size(192, 134);
@@ -406,10 +406,10 @@
             // 
             // btnMatch15
             // 
-            btnMatch15.BackColor = Color.DarkBlue;
+            btnMatch15.BackColor = Color.LightBlue;
             btnMatch15.Dock = DockStyle.Fill;
             btnMatch15.Font = new Font("Wingdings", 40.2F);
-            btnMatch15.ForeColor = SystemColors.ButtonHighlight;
+            btnMatch15.ForeColor = Color.LightBlue;
             btnMatch15.Location = new Point(399, 417);
             btnMatch15.Name = "btnMatch15";
             btnMatch15.Size = new Size(192, 134);
@@ -418,10 +418,10 @@
             // 
             // btnMatch16
             // 
-            btnMatch16.BackColor = Color.DarkBlue;
+            btnMatch16.BackColor = Color.LightBlue;
             btnMatch16.Dock = DockStyle.Fill;
             btnMatch16.Font = new Font("Wingdings", 40.2F);
-            btnMatch16.ForeColor = SystemColors.ButtonHighlight;
+            btnMatch16.ForeColor = Color.LightBlue;
             btnMatch16.Location = new Point(597, 417);
             btnMatch16.Name = "btnMatch16";
             btnMatch16.Size = new Size(194, 134);
