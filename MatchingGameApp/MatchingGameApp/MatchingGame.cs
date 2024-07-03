@@ -135,7 +135,7 @@ namespace MatchingGameApp
 
         private void Start()
         {
-            MessageBox.Show("Rules of the game: \r\n\r\n Select Mode: Choose to play either with another player (2-player mode) or against the computer (Player 2 is the computer).\r\n\r\nGameplay:\r\n\r\nTurn Structure: Players take turns choosing a card from the top 8 and a card from the bottom 8.\r\nMatching: If the chosen cards match, the player receives a point, and the matched cards turn black.\r\nNon-Matching: If the cards do not match, they will flip back over after a one-second delay.\r\nNext Turn: After a turn, Player 2 (or the computer) will play its turn.");
+            MessageBox.Show("Rules of the game: \r\n\r\n Gameplay:\r\n\r\nTurn Structure: Players take turns choosing a card from the top 8 and a card from the bottom 8.\r\nMatching: If the chosen cards match, the player receives a point, and the matched cards turn black.\r\nNon-Matching: If the cards do not match, they will flip back over after a one-second delay.\r\nNext Turn: After a turn, Player 2 will play its turn.");
             EnableButtons(lstAllMatchButtons);
 
             SetButtonForeColor(lstMatchButtons1, Color.LightBlue);
@@ -207,7 +207,7 @@ namespace MatchingGameApp
                 }
             }
         }
-        
+        /*
         private async void DoComputerTurn()
         {
             DisableButtonClicks(lstMatchButtons2, Card2Clicked);
@@ -229,7 +229,7 @@ namespace MatchingGameApp
 
             CheckMatch();
         }
-
+        */
         private void SwitchTurn()
         {
             if (CurrentTurn== TurnEnum.Player1)
@@ -241,10 +241,10 @@ namespace MatchingGameApp
                 CurrentTurn = TurnEnum.Player1;
             }
             lblGameStatus.Text = "Current Turn: " + CurrentTurn;
-            if (CurrentTurn == TurnEnum.Player2 && optAgainstComputer.Checked)
+            /*if (CurrentTurn == TurnEnum.Player2 && optAgainstComputer.Checked)
             {
                 DoComputerTurn();
-            }
+            }*/
 
         }
 

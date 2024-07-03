@@ -31,8 +31,6 @@
             tblMain = new TableLayoutPanel();
             tblToolbar = new TableLayoutPanel();
             btnStart = new Button();
-            opt2Player = new RadioButton();
-            optAgainstComputer = new RadioButton();
             lblScore = new Label();
             lblPlayer1Score = new Label();
             lblPlayer2Score = new Label();
@@ -89,8 +87,6 @@
             tblToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 14.6308336F));
             tblToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 14.6308336F));
             tblToolbar.Controls.Add(btnStart, 0, 0);
-            tblToolbar.Controls.Add(opt2Player, 1, 0);
-            tblToolbar.Controls.Add(optAgainstComputer, 2, 0);
             tblToolbar.Controls.Add(lblScore, 3, 0);
             tblToolbar.Controls.Add(lblPlayer1Score, 4, 0);
             tblToolbar.Controls.Add(lblPlayer2Score, 5, 0);
@@ -113,30 +109,6 @@
             btnStart.TabIndex = 0;
             btnStart.Text = "Start";
             btnStart.UseVisualStyleBackColor = false;
-            // 
-            // opt2Player
-            // 
-            opt2Player.AutoSize = true;
-            opt2Player.Checked = true;
-            opt2Player.Dock = DockStyle.Fill;
-            opt2Player.Location = new Point(119, 3);
-            opt2Player.Name = "opt2Player";
-            opt2Player.Size = new Size(86, 57);
-            opt2Player.TabIndex = 1;
-            opt2Player.TabStop = true;
-            opt2Player.Text = "2 Player";
-            opt2Player.UseVisualStyleBackColor = true;
-            // 
-            // optAgainstComputer
-            // 
-            optAgainstComputer.AutoSize = true;
-            optAgainstComputer.Dock = DockStyle.Fill;
-            optAgainstComputer.Location = new Point(211, 3);
-            optAgainstComputer.Name = "optAgainstComputer";
-            optAgainstComputer.Size = new Size(230, 57);
-            optAgainstComputer.TabIndex = 2;
-            optAgainstComputer.Text = "play agains the computer";
-            optAgainstComputer.UseVisualStyleBackColor = true;
             // 
             // lblScore
             // 
@@ -450,8 +422,6 @@
         private TableLayoutPanel tblMain;
         private TableLayoutPanel tblToolbar;
         private Button btnStart;
-        private RadioButton opt2Player;
-        private RadioButton optAgainstComputer;
         private Label lblScore;
         private Label lblPlayer1Score;
         private Label lblPlayer2Score;
