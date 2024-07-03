@@ -36,7 +36,7 @@ namespace MatchingGameApp
 
             lstMatchButtons1 = new() { btnMatch1, btnMatch2, btnMatch3, btnMatch4, btnMatch5, btnMatch6, btnMatch7, btnMatch8 };
             lstMatchButtons2 = new() { btnMatch9, btnMatch10, btnMatch11, btnMatch12, btnMatch13, btnMatch14, btnMatch15, btnMatch16 };
-
+//AS Make a third list of all the buttons combined. This way, any place that you repeated something for the 2 lists of buttons you can update to just use this one combined list.
             DisableButtons(lstMatchButtons1);
             DisableButtons(lstMatchButtons2);
 
@@ -71,7 +71,7 @@ namespace MatchingGameApp
         {
             buttons.ForEach(b=>b.Enabled = true);
         }
-
+//AS Instead of loading up the event handler here in a separate procedure, it can be done in the initializer. Same for DisableButtonClicks.
         private void EnableButtonClicks(List<Button> buttons, EventHandler clickhandler)
         {
             buttons.ForEach(b=> b.Click += clickhandler);
@@ -131,7 +131,7 @@ namespace MatchingGameApp
 
         
 
-
+//AS Combine these 2 procedures.
         private void RevealPictures1(Button btn)
         {
             if (btn.ForeColor == Color.DarkBlue)
@@ -274,7 +274,7 @@ namespace MatchingGameApp
             }
         }
 
-
+//AS This is a lot of code to have in the event handler, move it out into a separate procedure and call it from here.
         private void BtnStart_Click(object? sender, EventArgs e)
         {
             MessageBox.Show("Rules of the game: \r\n\r\n Select Mode: Choose to play either with another player (2-player mode) or against the computer (Player 2 is the computer).\r\n\r\nGameplay:\r\n\r\nTurn Structure: Players take turns choosing a card from the top 8 and a card from the bottom 8.\r\nMatching: If the chosen cards match, the player receives a point, and the matched cards turn black.\r\nNon-Matching: If the cards do not match, they will flip back over after a one-second delay.\r\nNext Turn: After a turn, Player 2 (or the computer) will play its turn.");
