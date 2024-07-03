@@ -216,12 +216,12 @@ namespace MatchingGameApp
 
             var availablebuttons1 = lstMatchButtons1.Where(b => b.Enabled == true).ToList();
             var btn1 = availablebuttons1[new Random().Next(0, availablebuttons1.Count())];
-            RevealPictures1(btn1);
+            RevealPicture(btn1, 1);
             MatchPart1 = btn1;
 
             var availablebuttons2 = lstMatchButtons2.Where(b => b.Enabled == true).ToList();
             var btn2 = availablebuttons2[new Random().Next(0, availablebuttons2.Count())];
-            RevealPictures2(btn2);
+            RevealPicture(btn2, 2);
             MatchPart2 = btn2;
 
             CheckMatch();
