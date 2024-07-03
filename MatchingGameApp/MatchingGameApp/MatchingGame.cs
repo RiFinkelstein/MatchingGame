@@ -14,6 +14,8 @@ namespace MatchingGameApp
     {
 
         enum TurnEnum { Player1, Player2};
+
+
         TurnEnum CurrentTurn= TurnEnum.Player1;
 
         Button MatchPart1;

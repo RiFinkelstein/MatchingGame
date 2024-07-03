@@ -80,7 +80,7 @@
             // 
             // tblToolbar
             // 
-            tblToolbar.BackColor = SystemColors.ControlDarkDark;
+            tblToolbar.BackColor = Color.Silver;
             tblToolbar.ColumnCount = 6;
             tblToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 14.63084F));
             tblToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.7065611F));
@@ -191,7 +191,7 @@
             // lblGameStatus
             // 
             lblGameStatus.AutoSize = true;
-            lblGameStatus.BackColor = Color.SteelBlue;
+            lblGameStatus.BackColor = Color.Tan;
             tblGameStatus.SetColumnSpan(lblGameStatus, 3);
             lblGameStatus.Dock = DockStyle.Fill;
             lblGameStatus.Location = new Point(161, 0);
