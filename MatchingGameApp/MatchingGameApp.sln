@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatchingGameApp", "MatchingGameApp\MatchingGameApp.csproj", "{8267ED1B-5EA2-4A84-8035-603EC96FE790}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchingGameApp", "MatchingGameApp\MatchingGameApp.csproj", "{8267ED1B-5EA2-4A84-8035-603EC96FE790}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAUIMatchingGame", "MAUIMatchingGame\MAUIMatchingGame.csproj", "{D7259A0A-2C71-4DF6-AA97-F7DDA3CF4289}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,12 @@ Global
 		{8267ED1B-5EA2-4A84-8035-603EC96FE790}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8267ED1B-5EA2-4A84-8035-603EC96FE790}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8267ED1B-5EA2-4A84-8035-603EC96FE790}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7259A0A-2C71-4DF6-AA97-F7DDA3CF4289}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7259A0A-2C71-4DF6-AA97-F7DDA3CF4289}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7259A0A-2C71-4DF6-AA97-F7DDA3CF4289}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D7259A0A-2C71-4DF6-AA97-F7DDA3CF4289}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7259A0A-2C71-4DF6-AA97-F7DDA3CF4289}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7259A0A-2C71-4DF6-AA97-F7DDA3CF4289}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
