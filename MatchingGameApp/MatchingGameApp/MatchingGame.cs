@@ -39,7 +39,6 @@ namespace MatchingGameApp
 
             lstMatchButtons1 = new() { btnMatch1, btnMatch2, btnMatch3, btnMatch4, btnMatch5, btnMatch6, btnMatch7, btnMatch8 };
             lstMatchButtons2 = new() { btnMatch9, btnMatch10, btnMatch11, btnMatch12, btnMatch13, btnMatch14, btnMatch15, btnMatch16 };
-            //AS Make a third list of all the buttons combined. This way, any place that you repeated something for the 2 lists of buttons you can update to just use this one combined list.
             lstAllMatchButtons = new() { btnMatch1, btnMatch2, btnMatch3, btnMatch4, btnMatch5, btnMatch6, btnMatch7, btnMatch8, btnMatch9, btnMatch10, btnMatch11, btnMatch12, btnMatch13, btnMatch14, btnMatch15, btnMatch16 };
 
 
@@ -76,7 +75,6 @@ namespace MatchingGameApp
         {
             buttons.ForEach(b=>b.Enabled = true);
         }
-//AS Instead of loading up the event handler here in a separate procedure, it can be done in the initializer. Same for DisableButtonClicks.
         private void EnableButtonClicks(List<Button> buttons, EventHandler clickhandler)
         {
             buttons.ForEach(b=> b.Click += clickhandler);
@@ -165,7 +163,6 @@ namespace MatchingGameApp
             }
         }
 
-        //AS Combine these 2 procedures.
 
         private async void CheckMatch()
         {
@@ -293,7 +290,6 @@ namespace MatchingGameApp
             }
         }
 
-//AS This is a lot of code to have in the event handler, move it out into a separate procedure and call it from here.
         private void BtnStart_Click(object? sender, EventArgs e)
         {
             Start();
