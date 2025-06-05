@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MAUIMatchingGame.MatchingGame"
              Title="MatchingGame">
-    <Grid ColumnDefinitions="*, *, *, *" RowDefinitions="2*, 2*, 3*, 3*, 3*, 3*" BackgroundColor="White">
+    <Grid ColumnDefinitions="*,*, *, *" RowDefinitions="2*, 2*, 3*, 3*, 3*, 3*" BackgroundColor="White">
         <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*" Grid.Column="0" Grid.Row="0" BackgroundColor="LightGray" Grid.ColumnSpan="4">
-            <Button Text="Start"  TextColor="Black" BackgroundColor="White" Grid.Column="0" Grid.Row="0" BorderColor="Black" BorderWidth="2" Margin="10" />
-            <Label Text="Score:" Grid.Column="2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+            <Button Text="Start"  TextColor="Black" BackgroundColor="White" Grid.Column="0" Grid.Row="0" BorderColor="Black" BorderWidth="2" Margin="10" FontSize="Default"/>
+            <Label Text="Score:" Grid.Column="2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  />
         </Grid>
 
         <Label Text="Click the Start to begin game" Grid.Row="1" Grid.ColumnSpan="4" BackgroundColor="RosyBrown" Margin="20"  HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
