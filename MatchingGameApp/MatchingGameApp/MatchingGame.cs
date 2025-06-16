@@ -195,7 +195,6 @@ namespace MatchingGameApp
                     if (MatchPart2 != null)
                     {
                         MatchPart2.ForeColor = Color.LightPink;
-
                     }
                     ResetMatchParts();
                     SwitchTurn();
