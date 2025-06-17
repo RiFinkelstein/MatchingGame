@@ -1,73 +1,118 @@
-﻿namespace MatchingGameSystem
+﻿using System.Drawing;
+
+namespace MatchingGameSystem
 {
     public class Game
     {
-        public enum Player { Player1, Player2 }
-        public Player CurrentTurn { get; private set; } = Player.Player1;
+        public enum GameStatusEnum { NotStarted, Playing, Winner, Tie }
+        public enum TurnEnum { None, player1, player2 }
 
-        public List<Card> CardsTop { get; private set; }
-        public List<Card> CardsBottom { get; private set; }
 
-        public int ScorePlayer1 { get; private set; }
-        public int ScorePlayer2 { get; private set; }
 
-        private Card? SelectedCard1;
-        private Card? SelectedCard2;
+        public int Player1Score { get; set; }
+        public int Player2Score { get; set; }
 
-        public Game(List<string> matchValues)
+        public TurnEnum CurrentTurn { get; set; }
+
+        public GameStatusEnum GameStatus { get; set; }
+        public string GameStatusDescription { get; set; } // this will be calculated based on the gamestatusenum
+
+        public Card MatchPart1 { get; set; }
+
+        public Card MatchPart2 { get; set; }
+
+        public List<Card> lstAllCards { get; set; } = new();
+
+        public List<Card> lstCardsTopRow { get; set; } = new();
+
+        public List<Card> lstCardsBottomRow { get; set; } = new();
+
+        public List<string> lstCardNames { get; set; } = new() { "A", "B", "C", "D", "E", "F", "G", "H" };
+
+        public System.Drawing.Color TopCardsHiddendColor { get; set; } = System.Drawing.Color.LightBlue;
+        public System.Drawing.Color BottomCardsHiddenColor { get; set; } = System.Drawing.Color.LightPink;
+        public System.Drawing.Color CardsRevealedColor { get; set; } = System.Drawing.Color.Black;
+
+
+        public Game()
         {
-            var shuffledTop = matchValues.OrderBy(x => Guid.NewGuid()).ToList();
-            var shuffledBottom = matchValues.OrderBy(x => Guid.NewGuid()).ToList();
+            this.lstCardsBottomRow.ForEach(b => b.BackColor = this.BottomCardsHiddenColor);
+            this.lstCardsTopRow.ForEach(b => b.BackColor = this.TopCardsHiddendColor);
+            lstCardsTopRow.Clear();
+            lstCardsBottomRow.Clear();
+            lstAllCards.Clear();
 
-            CardsTop = shuffledTop.Select(v => new Card(v)).ToList();
-            CardsBottom = shuffledBottom.Select(v => new Card(v)).ToList();
-        }
-
-        public void SelectCard(Card card)
-        {
-            if (SelectedCard1 == null)
-                SelectedCard1 = card;
-            else if (SelectedCard2 == null)
-                SelectedCard2 = card;
-        }
-
-        public bool IsReadyToCheck() => SelectedCard1 != null && SelectedCard2 != null;
-
-        public bool CheckMatch()
-        {
-            if (SelectedCard1 == null || SelectedCard2 == null)
-                return false;
-
-            bool isMatch = SelectedCard1.Value == SelectedCard2.Value;
-
-            if (isMatch)
+            for (int i = 0; i < 8; i++)
             {
-                SelectedCard1.IsMatched = true;
-                SelectedCard2.IsMatched = true;
-
-                if (CurrentTurn == Player.Player1)
-                    ScorePlayer1++;
-                else
-                    ScorePlayer2++;
+                lstCardsTopRow.Add(new Card(""));
+                lstCardsBottomRow.Add(new Card(""));
             }
 
-            return isMatch;
+            lstAllCards = lstCardsTopRow.Concat(lstCardsBottomRow).ToList();
+
         }
 
-        public void ResetSelection()
+
+
+
+        public void StartGame()
         {
-            SelectedCard1 = null;
-            SelectedCard2 = null;
+            //EnableButtons(lstAllMatchButtons);
+            //AllCards.ForEach(b => b.Enabled = true);
+            lstAllCards.ForEach(b => b.ForeColor = b.BackColor);
+            GameStatusDescription = $"Current Turn: {CurrentTurn.ToString()}";
+            Player1Score = 0;
+            Player2Score = 0;
+            GameStatus = GameStatusEnum.Playing;
+            CurrentTurn = TurnEnum.player1;
+            AddWordsToButton();
+            //btnStart.Text = "Restart";
         }
 
+        public void AddWordsToButton()
+        {
+            // Shuffle the names for both rows independently
+            var rnd = new Random();
+            var shuffledTop = lstCardNames.OrderBy(x => rnd.Next()).ToList();
+            var shuffledBottom = lstCardNames.OrderBy(x => rnd.Next()).ToList();
+
+            //Assign values to the top row
+            for (int i = 0; i < 8; i++)
+            {
+                lstCardsTopRow[i].Value = shuffledTop[i];
+                lstCardsTopRow[i].IsMatched = false;
+                lstCardsTopRow[i].IsRevealed = false;
+                lstCardsTopRow[i].ForeColor = lstCardsTopRow[i].BackColor; // hide initially
+            }
+
+            //Assign values to the bottom row
+            for (int i = 0; i < 8; i++)
+            {
+                lstCardsBottomRow[i].Value = shuffledBottom[i];
+                lstCardsBottomRow[i].IsMatched = false;
+                lstCardsBottomRow[i].IsRevealed = false;
+                lstCardsBottomRow[i].ForeColor = lstCardsBottomRow[i].BackColor; // hide initially
+            }
+            //Rebuild the full list of all cards
+            lstAllCards = lstCardsTopRow.Concat(lstCardsBottomRow).ToList();
+        }
+
+
+        public void HandleCardClick(Card Card, string letterrevealed)
+        {
+        }
+        public void CheckMatch()
+        {
+        }
         public void SwitchTurn()
         {
-            CurrentTurn = (CurrentTurn == Player.Player1) ? Player.Player2 : Player.Player1;
+        }
+        public void UpdateScore()
+        {
         }
 
-        public bool IsGameOver()
+        public void IsGameOver()
         {
-            return CardsTop.All(c => c.IsMatched) && CardsBottom.All(c => c.IsMatched);
         }
     }
 }

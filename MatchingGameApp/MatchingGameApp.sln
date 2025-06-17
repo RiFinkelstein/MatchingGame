@@ -9,7 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MAUIMatchingGame", "MAUIMat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchingGameSystem", "MatchingGameSystem\MatchingGameSystem.csproj", "{A25375EF-C344-4C72-A8D2-23D495BCB324}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatchingGameTest", "MatchingGameTest\MatchingGameTest.csproj", "{C9A1360D-6CD9-46FD-9130-4F605FAEDEF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchingGameTest", "MatchingGameTest\MatchingGameTest.csproj", "{C9A1360D-6CD9-46FD-9130-4F605FAEDEF4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A25375EF-C344-4C72-A8D2-23D495BCB324} = {A25375EF-C344-4C72-A8D2-23D495BCB324}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
