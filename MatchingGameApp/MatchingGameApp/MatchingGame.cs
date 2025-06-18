@@ -13,10 +13,13 @@ namespace MatchingGameApp
     public partial class MatchingGame : Form
     {
 
-        enum TurnEnum { Player1, Player2};
+        enum TurnEnum { Player1, Player2 };
 
 
-        TurnEnum CurrentTurn= TurnEnum.Player1;
+        TurnEnum CurrentTurn = TurnEnum.Player1;
+
+        enum GameStatusEnum { NotStarted, Playing, WinnerPlayer1, WinnerPlayer2, Tie }
+        GameStatusEnum GameStatus = GameStatusEnum.NotStarted;
 
         Button MatchPart1;
         Button MatchPart2;
@@ -25,10 +28,13 @@ namespace MatchingGameApp
         List<Button> lstMatchButtons1;
         List<Button> lstMatchButtons2;
         List<Button> lstAllMatchButtons;
+
+        List<Button> lstMatchFound = new();
         List<string> lstMatchStrings;
 
         int ScorePlayer1 = 0;
         int ScorePlayer2 = 0;
+        bool isCheckingMatch = false;
 
 
         public MatchingGame()
@@ -42,7 +48,7 @@ namespace MatchingGameApp
             lstAllMatchButtons = new() { btnMatch1, btnMatch2, btnMatch3, btnMatch4, btnMatch5, btnMatch6, btnMatch7, btnMatch8, btnMatch9, btnMatch10, btnMatch11, btnMatch12, btnMatch13, btnMatch14, btnMatch15, btnMatch16 };
 
 
-            DisableButtons(lstAllMatchButtons);
+            //DisableButtons(lstAllMatchButtons);
 
             lstMatchButtons1.ForEach(b => b.Click += Card1Clicked);
             lstMatchButtons2.ForEach(b => b.Click += Card2Clicked);
@@ -54,6 +60,7 @@ namespace MatchingGameApp
             SetButtonForeColor(lstMatchButtons2, Color.LightPink);
 
             lblGameStatus.Text = "Click Start to begin game";
+
         }
 
         private void ResetScore()
@@ -65,30 +72,30 @@ namespace MatchingGameApp
         }
 
 
-        private void DisableMatchButtons()
-        {
-            MatchPart1.Enabled = false;
-            MatchPart2.Enabled = false; 
-        }
+        //private void DisableMatchButtons()
+        //{
+        //    MatchPart1.Enabled = false;
+        //    MatchPart2.Enabled = false;
+        //}
 
-        private void EnableButtons(List<Button> buttons)
-        {
-            buttons.ForEach(b=>b.Enabled = true);
-        }
-        private void EnableButtonClicks(List<Button> buttons, EventHandler clickhandler)
-        {
-            buttons.ForEach(b=> b.Click += clickhandler);
-        }
+        //private void EnableButtons(List<Button> buttons)
+        //{
+        //    buttons.ForEach(b => b.Enabled = true);
+        //}
+        //private void EnableButtonClicks(List<Button> buttons, EventHandler clickhandler)
+        //{
+        //    buttons.ForEach(b => b.Click += clickhandler);
+        //}
 
-        private void DisableButtons(List<Button> buttons)
-        {
-            buttons.ForEach(b => b.Enabled = false);
-        }
+        //private void DisableButtons(List<Button> buttons)
+        //{
+        //    buttons.ForEach(b => b.Enabled = false);
+        //}
 
-        private void DisableButtonClicks(List<Button> buttons, EventHandler clickhandler)
-        {
-            buttons.ForEach(b => b.Click -= clickhandler);
-        }
+        //private void DisableButtonClicks(List<Button> buttons, EventHandler clickhandler)
+        //{
+        //    buttons.ForEach(b => b.Click -= clickhandler);
+        //}
 
         private void SetButtonForeColor(List<Button> buttons, Color clr)
         {
@@ -99,8 +106,8 @@ namespace MatchingGameApp
         {
             MatchPart1 = null;
             MatchPart2 = null;
-            EnableButtonClicks(lstMatchButtons1, Card1Clicked);
-            EnableButtonClicks(lstMatchButtons2, Card2Clicked);
+            //EnableButtonClicks(lstMatchButtons1, Card1Clicked);
+            //EnableButtonClicks(lstMatchButtons2, Card2Clicked);
         }
 
         private void UpdateScore()
@@ -117,7 +124,7 @@ namespace MatchingGameApp
             }
         }
 
-            private void AddWordsToButton()
+        private void AddWordsToButton()
         {
             Random rnd = new();
             lstMatchButtons1 = lstMatchButtons1.OrderBy(x => rnd.Next()).ToList();
@@ -134,49 +141,74 @@ namespace MatchingGameApp
         private void Start()
         {
             MessageBox.Show("Rules of the game: \r\n\r\n Gameplay:\r\n\r\nTurn Structure: Players take turns choosing a card from the top 8 and a card from the bottom 8.\r\nMatching: If the chosen cards match, the player receives a point, and the matched cards turn black.\r\nNon-Matching: If the cards do not match, they will flip back over after a one-second delay.\r\nNext Turn: After a turn, Player 2 will play its turn.");
-            EnableButtons(lstAllMatchButtons);
+            //EnableButtons(lstAllMatchButtons);
 
             SetButtonForeColor(lstMatchButtons1, Color.LightBlue);
             SetButtonForeColor(lstMatchButtons2, Color.LightPink);
 
-
+            lstMatchFound.Clear();
             lblGameStatus.Text = "Current Turn: " + TurnEnum.Player1;
             ResetScore();
             AddWordsToButton();
             btnStart.Text = "Restart";
+            GameStatus = GameStatusEnum.Playing;
         }
-        
-        private void RevealPicture(Button btn, int part)
-        {
-            if (btn.ForeColor == Color.LightBlue || btn.ForeColor == Color.LightPink)
-            {
-                btn.ForeColor = Color.Black;
-                if (part == 1)
-                {
-                    MatchPart1 = btn;
-                }
-                else if(part == 2)
-                {
-                    MatchPart2 = btn;
-                }
 
+        private void DoTurn(Button btn)
+        {
+            if (lstMatchFound.Contains(btn) == false && GameStatus == GameStatusEnum.Playing)
+            {
+                if (btn.ForeColor == Color.LightBlue && MatchPart1 == null)
+                {
+
+                    btn.ForeColor = Color.Black;
+                    MatchPart1 = btn;
+
+                }
+                else if (btn.ForeColor == Color.LightPink && MatchPart2 == null)
+                {
+                    btn.ForeColor = Color.Black;
+                    MatchPart2 = btn;
+
+                }
             }
         }
+        //private void RevealPicture(Button btn, int part)
+        //{
+        //    if (btn.ForeColor == Color.LightBlue || btn.ForeColor == Color.LightPink)
+        //    {
+        //        btn.ForeColor = Color.Black;
+        //        if (part == 1)
+        //        {
+        //            MatchPart1 = btn;
+        //        }
+        //        else if (part == 2)
+        //        {
+        //            MatchPart2 = btn;
+        //        }
+
+        //    }
+        //}
 
 
         private async void CheckMatch()
         {
-            if (MatchPart1 != null && MatchPart2 != null)
+            if (MatchPart1 != null && MatchPart2 != null && !isCheckingMatch)
             {
+                isCheckingMatch = true;
+
                 if (MatchPart1.Text == MatchPart2.Text)
                 {
                     UpdateScore();
-                    DisableMatchButtons();
+                    //DisableMatchButtons();
+                    lstMatchFound.Add(MatchPart1);
+                    lstMatchFound.Add(MatchPart2);
                     ResetMatchParts();
                     if (!GameOver())
                     {
                         SwitchTurn();
                         lblGameStatus.Text = "Current Turn: " + CurrentTurn;
+                        GameStatus = GameStatusEnum.Playing;
                     }
                     else
                     {
@@ -201,34 +233,14 @@ namespace MatchingGameApp
                     lblGameStatus.Text = "Current Turn: " + CurrentTurn;
 
                 }
+                isCheckingMatch = false;
+
             }
         }
-        /*
-        private async void DoComputerTurn()
-        {
-            DisableButtonClicks(lstMatchButtons2, Card2Clicked);
-            DisableButtonClicks(lstMatchButtons1, Card1Clicked);
-            await Task.Delay(1000);
-            CurrentTurn = TurnEnum.Player2;
-            lblGameStatus.Text = "Current Turn: " + CurrentTurn;
-            CurrentTurn = TurnEnum.Player2;
 
-            var availablebuttons1 = lstMatchButtons1.Where(b => b.Enabled == true).ToList();
-            var btn1 = availablebuttons1[new Random().Next(0, availablebuttons1.Count())];
-            RevealPicture(btn1, 1);
-            MatchPart1 = btn1;
-
-            var availablebuttons2 = lstMatchButtons2.Where(b => b.Enabled == true).ToList();
-            var btn2 = availablebuttons2[new Random().Next(0, availablebuttons2.Count())];
-            RevealPicture(btn2, 2);
-            MatchPart2 = btn2;
-
-            CheckMatch();
-        }
-        */
         private void SwitchTurn()
         {
-            if (CurrentTurn== TurnEnum.Player1)
+            if (CurrentTurn == TurnEnum.Player1)
             {
                 CurrentTurn = TurnEnum.Player2;
             }
@@ -237,33 +249,36 @@ namespace MatchingGameApp
                 CurrentTurn = TurnEnum.Player1;
             }
             lblGameStatus.Text = "Current Turn: " + CurrentTurn;
-            /*if (CurrentTurn == TurnEnum.Player2 && optAgainstComputer.Checked)
-            {
-                DoComputerTurn();
-            }*/
+
 
         }
+
+
 
         private bool GameOver()
         {
             var winner = "";
-            if (ScorePlayer1> ScorePlayer2)
+            if (lstMatchFound.Count == lstAllMatchButtons.Count)
             {
-                winner = "Winner: Player 1";
-            }
-            else if (ScorePlayer1 < ScorePlayer2)
-            {
-                winner = "Winner: Player 2";
-            }
-            else
-            {
-                winner = "Tie";
-            }
+                if (ScorePlayer1 > ScorePlayer2)
+                {
+                    winner = "Winner: Player 1";
+                    GameStatus = GameStatusEnum.WinnerPlayer1;
+                }
+                else if (ScorePlayer1 < ScorePlayer2)
+                {
+                    winner = "Winner: Player 2";
+                    GameStatus = GameStatusEnum.WinnerPlayer2;
 
-            if (lstMatchButtons1.Where(b => b.Enabled== true).Count() == 0 && lstMatchButtons2.Where(b => b.Enabled == true).Count() == 0)
-            {
-                lblGameStatus.Text =  winner  +Environment.NewLine +"Game Over- Press Restart to play again ";
+                }
+                else
+                {
+                    winner = "Tie";
+                    GameStatus = GameStatusEnum.Tie;
+                }
+                lblGameStatus.Text = winner + Environment.NewLine + "Game Over - Press Restart to play again";
                 return true;
+
             }
             return false;
         }
@@ -273,9 +288,11 @@ namespace MatchingGameApp
         {
             if (sender is Button)
             {
-                RevealPicture((Button)sender, 2);
+                DoTurn((Button)sender);
+
+                //RevealPicture((Button)sender, 2);
                 CheckMatch();
-                DisableButtonClicks(lstMatchButtons2, Card2Clicked);
+                //DisableButtonClicks(lstMatchButtons2, Card2Clicked);
             }
         }
 
@@ -283,9 +300,10 @@ namespace MatchingGameApp
         {
             if (sender is Button)
             {
-                RevealPicture((Button)sender, 1);
+                DoTurn((Button)sender);
+                //RevealPicture((Button)sender, 1);
                 CheckMatch();
-                DisableButtonClicks(lstMatchButtons1, Card1Clicked);
+                //DisableButtonClicks(lstMatchButtons1, Card1Clicked);
             }
         }
 
