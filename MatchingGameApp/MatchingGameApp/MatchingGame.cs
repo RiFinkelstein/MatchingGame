@@ -156,6 +156,7 @@ namespace MatchingGameApp
                     MatchPart2 = btn;
 
                 }
+                CheckMatch();
             }
         }
 
@@ -197,7 +198,6 @@ namespace MatchingGameApp
 
                 }
                 isCheckingMatch = false;
-
             }
         }
 
@@ -207,8 +207,6 @@ namespace MatchingGameApp
             CurrentTurn = CurrentTurn == TurnEnum.Player1 ? TurnEnum.Player2 : TurnEnum.Player1;
             lblGameStatus.Text = "Current Turn: " + CurrentTurn;
         }
-
-
 
         private bool GameOver()
         {
@@ -244,7 +242,6 @@ namespace MatchingGameApp
             if (sender is Button)
             {
                 DoTurn((Button)sender);
-                CheckMatch();
             }
         }
 

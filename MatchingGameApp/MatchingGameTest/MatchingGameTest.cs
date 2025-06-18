@@ -53,5 +53,27 @@ namespace MatchingGameTest
             TestContext.WriteLine("Bottom Row: " + string.Join(", ", game.lstCardsBottomRow.Select(c => c.Value)));
         }
 
+        [TestCase(true)]
+        [TestCase(false)]
+        public void TestDoTurn(bool isTopRow)
+        {
+            Game game = new();
+            game.StartGame();
+
+            Card card = isTopRow ? game.lstCardsTopRow[0] : game.lstCardsBottomRow[0];
+            card.ForeColor = isTopRow ? game.TopCardsHiddendColor : game.BottomCardsHiddenColor;
+            card.Value = "A";
+
+            game.DoTurn(card);
+
+            string msg = $"Row: {(isTopRow ? "Top" : "Bottom")}, MatchPart = {(isTopRow ? game.MatchPart1.Value : game.MatchPart2.Value)}, ForeColor = {card.ForeColor}, GameStatus = {game.GameStatus}";
+            Assert.IsTrue((isTopRow ? game.MatchPart1 == card : game.MatchPart2 == card) , msg);
+            Assert.IsTrue(card.ForeColor == game.CardsRevealedColor, msg);
+            Assert.IsTrue(game.GameStatus == Game.GameStatusEnum.Playing, msg);
+
+            TestContext.WriteLine(msg);
+        }
+
+
     }
 }
