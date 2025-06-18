@@ -43,15 +43,14 @@ namespace MatchingGameApp
             btnStart.Click += BtnStart_Click;
 
 
-            lstMatchButtons1 = new() { btnMatch1, btnMatch2, btnMatch3, btnMatch4, btnMatch5, btnMatch6, btnMatch7, btnMatch8 };
-            lstMatchButtons2 = new() { btnMatch9, btnMatch10, btnMatch11, btnMatch12, btnMatch13, btnMatch14, btnMatch15, btnMatch16 };
             lstAllMatchButtons = new() { btnMatch1, btnMatch2, btnMatch3, btnMatch4, btnMatch5, btnMatch6, btnMatch7, btnMatch8, btnMatch9, btnMatch10, btnMatch11, btnMatch12, btnMatch13, btnMatch14, btnMatch15, btnMatch16 };
+            lstMatchButtons1 = lstAllMatchButtons.Take(8).ToList();
+            lstMatchButtons2 = lstAllMatchButtons.Skip(8).Take(8).ToList();
 
 
-            //DisableButtons(lstAllMatchButtons);
 
-            lstMatchButtons1.ForEach(b => b.Click += Card1Clicked);
-            lstMatchButtons2.ForEach(b => b.Click += Card2Clicked);
+            lstMatchButtons1.ForEach(b => b.Click += CardClicked);
+            lstMatchButtons2.ForEach(b => b.Click += CardClicked);
 
             lstMatchStrings = new() { "A", "B", "C", "D", "E", "F", "G", "H" };
 
@@ -63,6 +62,20 @@ namespace MatchingGameApp
 
         }
 
+        private string GetGameRules()
+        {
+            return """
+        Rules of the game:
+        
+        Gameplay:
+        
+        Turn Structure: Players take turns choosing a card from the top 8 and a card from the bottom 8.
+        Matching: If the chosen cards match, the player receives a point, and the matched cards turn black.
+        Non-Matching: If the cards do not match, they will flip back over after a one-second delay.
+        Next Turn: After a turn, Player 2 will play its turn.
+        """;
+        }
+
         private void ResetScore()
         {
             ScorePlayer1 = 0;
@@ -71,31 +84,6 @@ namespace MatchingGameApp
             lblPlayer2Score.Text = "PLayer 2: 0";
         }
 
-
-        //private void DisableMatchButtons()
-        //{
-        //    MatchPart1.Enabled = false;
-        //    MatchPart2.Enabled = false;
-        //}
-
-        //private void EnableButtons(List<Button> buttons)
-        //{
-        //    buttons.ForEach(b => b.Enabled = true);
-        //}
-        //private void EnableButtonClicks(List<Button> buttons, EventHandler clickhandler)
-        //{
-        //    buttons.ForEach(b => b.Click += clickhandler);
-        //}
-
-        //private void DisableButtons(List<Button> buttons)
-        //{
-        //    buttons.ForEach(b => b.Enabled = false);
-        //}
-
-        //private void DisableButtonClicks(List<Button> buttons, EventHandler clickhandler)
-        //{
-        //    buttons.ForEach(b => b.Click -= clickhandler);
-        //}
 
         private void SetButtonForeColor(List<Button> buttons, Color clr)
         {
@@ -106,8 +94,6 @@ namespace MatchingGameApp
         {
             MatchPart1 = null;
             MatchPart2 = null;
-            //EnableButtonClicks(lstMatchButtons1, Card1Clicked);
-            //EnableButtonClicks(lstMatchButtons2, Card2Clicked);
         }
 
         private void UpdateScore()
@@ -140,8 +126,7 @@ namespace MatchingGameApp
 
         private void Start()
         {
-            MessageBox.Show("Rules of the game: \r\n\r\n Gameplay:\r\n\r\nTurn Structure: Players take turns choosing a card from the top 8 and a card from the bottom 8.\r\nMatching: If the chosen cards match, the player receives a point, and the matched cards turn black.\r\nNon-Matching: If the cards do not match, they will flip back over after a one-second delay.\r\nNext Turn: After a turn, Player 2 will play its turn.");
-            //EnableButtons(lstAllMatchButtons);
+            MessageBox.Show(GetGameRules());
 
             SetButtonForeColor(lstMatchButtons1, Color.LightBlue);
             SetButtonForeColor(lstMatchButtons2, Color.LightPink);
@@ -173,23 +158,6 @@ namespace MatchingGameApp
                 }
             }
         }
-        //private void RevealPicture(Button btn, int part)
-        //{
-        //    if (btn.ForeColor == Color.LightBlue || btn.ForeColor == Color.LightPink)
-        //    {
-        //        btn.ForeColor = Color.Black;
-        //        if (part == 1)
-        //        {
-        //            MatchPart1 = btn;
-        //        }
-        //        else if (part == 2)
-        //        {
-        //            MatchPart2 = btn;
-        //        }
-
-        //    }
-        //}
-
 
         private async void CheckMatch()
         {
@@ -200,7 +168,6 @@ namespace MatchingGameApp
                 if (MatchPart1.Text == MatchPart2.Text)
                 {
                     UpdateScore();
-                    //DisableMatchButtons();
                     lstMatchFound.Add(MatchPart1);
                     lstMatchFound.Add(MatchPart2);
                     ResetMatchParts();
@@ -209,10 +176,6 @@ namespace MatchingGameApp
                         SwitchTurn();
                         lblGameStatus.Text = "Current Turn: " + CurrentTurn;
                         GameStatus = GameStatusEnum.Playing;
-                    }
-                    else
-                    {
-                        GameOver();
                     }
                 }
                 else
@@ -238,19 +201,11 @@ namespace MatchingGameApp
             }
         }
 
+
         private void SwitchTurn()
         {
-            if (CurrentTurn == TurnEnum.Player1)
-            {
-                CurrentTurn = TurnEnum.Player2;
-            }
-            else
-            {
-                CurrentTurn = TurnEnum.Player1;
-            }
+            CurrentTurn = CurrentTurn == TurnEnum.Player1 ? TurnEnum.Player2 : TurnEnum.Player1;
             lblGameStatus.Text = "Current Turn: " + CurrentTurn;
-
-
         }
 
 
@@ -284,26 +239,12 @@ namespace MatchingGameApp
         }
 
 
-        private void Card2Clicked(object? sender, EventArgs e)
+        private void CardClicked(object? sender, EventArgs e)
         {
             if (sender is Button)
             {
                 DoTurn((Button)sender);
-
-                //RevealPicture((Button)sender, 2);
                 CheckMatch();
-                //DisableButtonClicks(lstMatchButtons2, Card2Clicked);
-            }
-        }
-
-        private void Card1Clicked(object? sender, EventArgs e)
-        {
-            if (sender is Button)
-            {
-                DoTurn((Button)sender);
-                //RevealPicture((Button)sender, 1);
-                CheckMatch();
-                //DisableButtonClicks(lstMatchButtons1, Card1Clicked);
             }
         }
 
