@@ -7,8 +7,6 @@ namespace MatchingGameSystem
         public enum GameStatusEnum { NotStarted, Playing, Winner, Tie }
         public enum TurnEnum { None, player1, player2 }
 
-
-
         public int Player1Score { get; set; }
         public int Player2Score { get; set; }
 
@@ -61,7 +59,7 @@ namespace MatchingGameSystem
 
         public void StartGame()
         {
-            lstAllCards.ForEach(b => b.ForeColor = b.BackColor);
+            //lstAllCards.ForEach(b => card.IsRevealed = true);
             GameStatusDescription = $"Current Turn: {CurrentTurn.ToString()}";
             Player1Score = 0;
             Player2Score = 0;
@@ -84,7 +82,8 @@ namespace MatchingGameSystem
                 lstCardsTopRow[i].Value = shuffledTop[i];
                 lstCardsTopRow[i].IsMatched = false;
                 lstCardsTopRow[i].IsRevealed = false;
-                lstCardsTopRow[i].ForeColor = lstCardsTopRow[i].BackColor; // hide initially
+                lstCardsTopRow[i].BackColor = TopCardsHiddendColor;
+                lstCardsTopRow[i].ForeColor = TopCardsHiddendColor;
             }
 
             //Assign values to the bottom row
@@ -93,32 +92,37 @@ namespace MatchingGameSystem
                 lstCardsBottomRow[i].Value = shuffledBottom[i];
                 lstCardsBottomRow[i].IsMatched = false;
                 lstCardsBottomRow[i].IsRevealed = false;
-                lstCardsBottomRow[i].ForeColor = lstCardsBottomRow[i].BackColor; // hide initially
+                lstCardsBottomRow[i].BackColor = BottomCardsHiddenColor;
+                lstCardsBottomRow[i].ForeColor = BottomCardsHiddenColor;
             }
             //Rebuild the full list of all cards
             lstAllCards = lstCardsTopRow.Concat(lstCardsBottomRow).ToList();
         }
-
-
-        public void DoTurn(Card card)
+        public async Task DoTurn(int cardnum)
         {
+            Card card = this.lstAllCards[cardnum];
 
             if (lstMatchFound.Contains(card) == false && GameStatus == GameStatusEnum.Playing)
             {
-                if (card.ForeColor == TopCardsHiddendColor && MatchPart1 == null)
+                if (!card.IsRevealed)  // if card is not revealed already
                 {
+                    if (MatchPart1 == null)
+                    {
+                        card.Reveal();
+                        MatchPart1 = card;
 
-                    card.ForeColor = CardsRevealedColor;
-                    MatchPart1 = card;
+                    }
+                    else if (MatchPart2 == null)
+                    {
+                        card.Reveal();
+                        MatchPart2 = card;
 
+                    }
                 }
-                else if (card.ForeColor == BottomCardsHiddenColor && MatchPart2 == null)
-                {
-                    card.ForeColor = CardsRevealedColor;
-                    MatchPart2 = card;
-                }
+                await CheckMatch();
             }
         }
+
 
         public async Task CheckMatch()
         {
@@ -144,16 +148,12 @@ namespace MatchingGameSystem
                     else
                     {
                         //when the wrong match is turned over then the progam waits a few seconds and then turns the cards back over
-                        await Task.Delay(1000);
+                        await Task.Delay(2000);
                         // Reset unmatched buttons
-                        if (MatchPart1 != null)
-                        {
-                            MatchPart1.ForeColor = TopCardsHiddendColor;
-                        }
-                        if (MatchPart2 != null)
-                        {
-                            MatchPart2.ForeColor = BottomCardsHiddenColor;
-                        }
+
+                        MatchPart1.Hide(TopCardsHiddendColor);  // properly hide top card
+                        MatchPart2.Hide(BottomCardsHiddenColor); // properly hide bottom card
+
                         MatchPart1 = null;
                         MatchPart2 = null;
                         SwitchTurn();

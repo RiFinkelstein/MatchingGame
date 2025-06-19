@@ -1,4 +1,5 @@
 using MatchingGameSystem;
+using System.Drawing;
 namespace MatchingGameTest
 {
     public class Tests
@@ -15,7 +16,7 @@ namespace MatchingGameTest
             Game game = new();
             game.StartGame();
             string msg = $"Game status = {game.GameStatus.ToString()} current turn= {game.CurrentTurn.ToString()} top cards count = {game.lstCardsTopRow.Count.ToString()} bottom cards count= {game.lstCardsBottomRow.Count.ToString()}";
-            Assert.IsTrue(game.GameStatus == Game.GameStatusEnum.Playing && game.CurrentTurn == Game.TurnEnum.player1 && game.lstCardsBottomRow.Count==8 && game.lstCardsTopRow.Count==8, msg);
+            Assert.IsTrue(game.GameStatus == Game.GameStatusEnum.Playing && game.CurrentTurn == Game.TurnEnum.player1 && game.lstCardsBottomRow.Count == 8 && game.lstCardsTopRow.Count == 8, msg);
             TestContext.WriteLine(msg);
         }
 
@@ -55,25 +56,93 @@ namespace MatchingGameTest
 
         [TestCase(true)]
         [TestCase(false)]
-        public void TestDoTurn(bool isTopRow)
+        public async Task TestDoTurn(bool isTopRow)
         {
             Game game = new();
             game.StartGame();
 
-            Card card = isTopRow ? game.lstCardsTopRow[0] : game.lstCardsBottomRow[0];
+            int index = isTopRow ? 0 : 9;
+
+            Card card = game.lstAllCards[index];
             card.ForeColor = isTopRow ? game.TopCardsHiddendColor : game.BottomCardsHiddenColor;
-            card.Value = "A";
 
-            game.DoTurn(card);
 
-            string msg = $"Row: {(isTopRow ? "Top" : "Bottom")}, MatchPart = {(isTopRow ? game.MatchPart1.Value : game.MatchPart2.Value)}, ForeColor = {card.ForeColor}, GameStatus = {game.GameStatus}";
-            Assert.IsTrue((isTopRow ? game.MatchPart1 == card : game.MatchPart2 == card) , msg);
-            Assert.IsTrue(card.ForeColor == game.CardsRevealedColor, msg);
+            await game.DoTurn(index);
+
+            string msg = $"Row: {(isTopRow ? "Top" : "Bottom")}, MatchPart = {game.MatchPart1.Value}, Card Revealed = {card.IsRevealed}, GameStatus = {game.GameStatus}";
+            Assert.IsTrue((game.MatchPart1 == card), msg);
+            Assert.IsTrue(card.IsRevealed, msg);
             Assert.IsTrue(game.GameStatus == Game.GameStatusEnum.Playing, msg);
 
             TestContext.WriteLine(msg);
         }
 
 
+
+
+
+
+        [Test]
+        public void TestSwitchTurn()
+        {
+            Game game = new();
+            game.CurrentTurn = Game.TurnEnum.player1;
+            game.SwitchTurn();
+            string msg1 = $"After first switch: CurrentTurn = {game.CurrentTurn}";
+            Assert.IsTrue(Game.TurnEnum.player2==game.CurrentTurn, msg1);
+
+            game.SwitchTurn();
+            string msg2 = $"After second switch: CurrentTurn = {game.CurrentTurn}";
+            Assert.IsTrue(Game.TurnEnum.player1== game.CurrentTurn, msg2);
+
+            TestContext.WriteLine(msg1);
+            TestContext.WriteLine(msg2);
+
+        }
+
+        [Test]
+        public async Task TestUpdateScore()
+        {
+            Game game = new();
+            game.StartGame();
+
+            game.lstAllCards[0].Value = "Z";
+            game.lstAllCards[9].Value = "Z";
+
+            game.CurrentTurn = Game.TurnEnum.player1;
+
+            await game.DoTurn(0); 
+            await game.DoTurn(9);
+
+            string msg = $"Player1Score= {game.Player1Score} and Player2Score= {game.Player2Score}";
+
+            Assert.IsTrue(1==game.Player1Score && game.Player2Score==0, msg);
+            TestContext.WriteLine(msg);
+        }
+
+
+        [Test]
+        public void TestIsGameOver()
+        {
+            Game game = new();
+            game.StartGame();
+
+            // Simulate all cards matched
+            game.lstMatchFound = game.lstAllCards.ToList();
+            game.Player1Score = 5;
+            game.Player2Score = 3;
+
+            bool isOver = game.IsGameOver();
+            string msg = $"GameOver = {isOver}, GameStatus = {game.GameStatus}, Player1Score = {game.Player1Score}, Player2Score = {game.Player2Score}";
+
+            Assert.IsTrue(game.GameStatus== Game.GameStatusEnum.Winner && isOver==true, msg);
+
+            TestContext.WriteLine(msg);
+        }
+
     }
+
+
+
 }
+
