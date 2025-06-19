@@ -75,7 +75,7 @@ namespace MatchingGameSystem
 
         public Card MatchPart2 { get; set; }
 
-        public List<Card> lstAllCards { get; set; } = new();
+        public List<Card> AllCards { get; set; } = new();
 
         public List<Card> lstCardsTopRow { get; set; } = new();
 
@@ -109,7 +109,7 @@ namespace MatchingGameSystem
             this.lstCardsTopRow.ForEach(b => b.BackColor = this.TopCardsHiddendColor);
             lstCardsTopRow.Clear();
             lstCardsBottomRow.Clear();
-            lstAllCards.Clear();
+            AllCards.Clear();
 
             for (int i = 0; i < 8; i++)
             {
@@ -117,7 +117,7 @@ namespace MatchingGameSystem
                 lstCardsBottomRow.Add(new Card(""));
             }
 
-            lstAllCards = lstCardsTopRow.Concat(lstCardsBottomRow).ToList();
+            AllCards = lstCardsTopRow.Concat(lstCardsBottomRow).ToList();
             AddWordsToButton();
         }
 
@@ -148,11 +148,11 @@ namespace MatchingGameSystem
                 lstCardsBottomRow[i].ForeColor = BottomCardsHiddenColor;
             }
             //Rebuild the full list of all cards
-            lstAllCards = lstCardsTopRow.Concat(lstCardsBottomRow).ToList();
+            AllCards = lstCardsTopRow.Concat(lstCardsBottomRow).ToList();
         }
         public async Task DoTurn(int cardnum)
         {
-            Card card = this.lstAllCards[cardnum];
+            Card card = this.AllCards[cardnum];
 
             if (lstMatchFound.Contains(card) == false && GameStatus == GameStatusEnum.Playing)
             {
@@ -250,7 +250,7 @@ namespace MatchingGameSystem
         public bool IsGameOver()
         {
             var winner = "";
-            if (lstMatchFound.Count == lstAllCards.Count)
+            if (lstMatchFound.Count == AllCards.Count)
             {
                 if (Player1Score > Player2Score)
                 {

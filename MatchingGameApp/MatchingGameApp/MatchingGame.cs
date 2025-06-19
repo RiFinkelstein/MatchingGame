@@ -16,18 +16,19 @@ namespace MatchingGameApp
         Game game = new();
 
 
-        List<Button> lstMatchButtons1;
-        List<Button> lstMatchButtons2;
-        List<Button> lstAllMatchButtons;
+        private List<Button> matchButtonsTopRow;
+        private List<Button> matchButtonsBottomRow;
+        private List<Button> AllMatchButtons;
 
        public MatchingGame()
         {
             InitializeComponent();
             btnStart.Click += BtnStart_Click;
-            lstAllMatchButtons = new() { btnMatch1, btnMatch2, btnMatch3, btnMatch4, btnMatch5, btnMatch6, btnMatch7, btnMatch8, btnMatch9, btnMatch10, btnMatch11, btnMatch12, btnMatch13, btnMatch14, btnMatch15, btnMatch16 };
-            lstMatchButtons1 = lstAllMatchButtons.Take(8).ToList();
-            lstMatchButtons2 = lstAllMatchButtons.Skip(8).Take(8).ToList();
-           // lstAllMatchButtons.ForEach(b => b.Click += CardClicked);
+            AllMatchButtons = new() { btnMatch1, btnMatch2, btnMatch3, btnMatch4, btnMatch5, btnMatch6, btnMatch7, btnMatch8, btnMatch9, btnMatch10, btnMatch11, btnMatch12, btnMatch13, btnMatch14, btnMatch15, btnMatch16 };
+            matchButtonsTopRow = AllMatchButtons.Take(8).ToList();
+            matchButtonsBottomRow = AllMatchButtons.Skip(8).Take(8).ToList();
+            AllMatchButtons.ForEach(b => b.Click += CardClicked);
+
             lblGameStatus.DataBindings.Add("Text", game, "GameStatusDescription");
             lblPlayer1Score.DataBindings.Add("Text", game, "Player1ScoreDescription");
             lblPlayer2Score.DataBindings.Add("Text", game, "Player2ScoreDescription");
@@ -53,16 +54,14 @@ namespace MatchingGameApp
         {
             MessageBox.Show(GetGameRules());
             game.StartGame();
-            for (int i = 0; i < lstAllMatchButtons.Count; i++)
+            for (int i = 0; i < AllMatchButtons.Count; i++)
             {
-                Button btn = lstAllMatchButtons[i];
-                Card card = game.lstAllCards[i];
-
+                Button btn = AllMatchButtons[i];
+                Card card = game.AllCards[i];
                 btn.DataBindings.Clear(); // prevent binding duplicates
                 btn.DataBindings.Add("Text", card, "Value");
                 btn.DataBindings.Add("BackColor", card, "BackColor");
                 btn.DataBindings.Add("ForeColor", card, "ForeColor");
-                btn.Click += CardClicked;
             }
         }
 
@@ -70,7 +69,7 @@ namespace MatchingGameApp
         private async Task DoTurn(Button btn)
         {
 
-            int num = lstAllMatchButtons.IndexOf(btn);
+            int num = AllMatchButtons.IndexOf(btn);
             await game.DoTurn(num);
         }
 

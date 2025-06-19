@@ -63,7 +63,7 @@ namespace MatchingGameTest
 
             int index = isTopRow ? 0 : 9;
 
-            Card card = game.lstAllCards[index];
+            Card card = game.AllCards[index];
             card.ForeColor = isTopRow ? game.TopCardsHiddendColor : game.BottomCardsHiddenColor;
 
 
@@ -106,8 +106,8 @@ namespace MatchingGameTest
             Game game = new();
             game.StartGame();
 
-            game.lstAllCards[0].Value = "Z";
-            game.lstAllCards[9].Value = "Z";
+            game.AllCards[0].Value = "Z";
+            game.AllCards[9].Value = "Z";
 
             game.CurrentTurn = Game.TurnEnum.player1;
 
@@ -128,7 +128,7 @@ namespace MatchingGameTest
             game.StartGame();
 
             // Simulate all cards matched
-            game.lstMatchFound = game.lstAllCards.ToList();
+            game.lstMatchFound = game.AllCards.ToList();
             game.Player1Score = 5;
             game.Player2Score = 3;
 
