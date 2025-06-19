@@ -16,6 +16,7 @@ namespace MatchingGameSystem
         private TurnEnum _currentturn;
         private int _player1score;
         private int _player2score;
+        private List<Card> _allCards = new();
 
         public enum GameStatusEnum { NotStarted, Playing, Winner, Tie }
         public enum TurnEnum { None, player1, player2 }
@@ -76,7 +77,16 @@ namespace MatchingGameSystem
 
         public Card? MatchPart2 { get; set; }
 
-        private List<Card> AllCards { get; set; } = new();
+        public List<Card> AllCards
+        {
+            get => _allCards;
+            set
+            {
+                _allCards = value;
+                this.InvokePropertyChanged();
+
+            }
+        } 
 
         private List<Card> CardsTopRow { get; set; } = new();
 

@@ -9,8 +9,17 @@ namespace MatchingGameSystem
         public event PropertyChangedEventHandler PropertyChanged;
         System.Drawing.Color _forecolor;
         System.Drawing.Color _backcolor;
+        string _value;
 
-        public string Value { get; set; }
+        public string Value
+        {
+            get => _value;
+            set
+            {
+                _value = value;
+                this.InvokePropertyChanged();
+            }
+        }
         public bool IsMatched { get; set; }
         public bool IsRevealed { get; set; }
 
@@ -31,6 +40,14 @@ namespace MatchingGameSystem
                 _forecolor = value;
                 this.InvokePropertyChanged();
             }
+        }
+        public Microsoft.Maui.Graphics.Color BackColorMaui
+        {
+            get => this.ConvertToMauiColor(this.BackColor);
+        }
+        public Microsoft.Maui.Graphics.Color ForeColorMaui
+        {
+            get => this.ConvertToMauiColor(this.ForeColor);
         }
 
         public Card(string value)
@@ -57,6 +74,16 @@ namespace MatchingGameSystem
         public bool Equals(Card card)
         {
             return this.Value == card.Value;
+        }
+
+        private Microsoft.Maui.Graphics.Color ConvertToMauiColor(System.Drawing.Color systemColor)
+        {
+            float red = systemColor.R / 255f;
+            float green = systemColor.G / 255f;
+            float blue = systemColor.B / 255f;
+            float alpha = systemColor.A / 255f;
+
+            return new Microsoft.Maui.Graphics.Color(red, green, blue, alpha);
         }
         private void InvokePropertyChanged([CallerMemberName] string propertyname = "")
         {

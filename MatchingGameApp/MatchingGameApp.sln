@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchingGameApp", "MatchingGameApp\MatchingGameApp.csproj", "{8267ED1B-5EA2-4A84-8035-603EC96FE790}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MAUIMatchingGame", "MAUIMatchingGame\MAUIMatchingGame.csproj", "{D7259A0A-2C71-4DF6-AA97-F7DDA3CF4289}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A25375EF-C344-4C72-A8D2-23D495BCB324} = {A25375EF-C344-4C72-A8D2-23D495BCB324}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchingGameSystem", "MatchingGameSystem\MatchingGameSystem.csproj", "{A25375EF-C344-4C72-A8D2-23D495BCB324}"
 EndProject
