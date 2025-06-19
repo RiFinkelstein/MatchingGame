@@ -1,16 +1,37 @@
-﻿using System.Drawing;
+﻿using System.ComponentModel;
+using System.Drawing;
+using System.Runtime.CompilerServices;
 
 namespace MatchingGameSystem
 {
-    public class Card
+    public class Card: INotifyPropertyChanged
     {
-
+        public event PropertyChangedEventHandler PropertyChanged;
+        System.Drawing.Color _forecolor;
+        System.Drawing.Color _backcolor;
 
         public string Value { get; set; }
         public bool IsMatched { get; set; }
         public bool IsRevealed { get; set; }
-        public System.Drawing.Color BackColor { get; set; }
-        public System.Drawing.Color ForeColor { get; set; }
+
+
+        public System.Drawing.Color BackColor
+        {
+            get => _backcolor; set
+            {
+                _backcolor = value;
+                this.InvokePropertyChanged();
+            }
+        }
+
+        public System.Drawing.Color ForeColor
+        {
+            get => _forecolor; set
+            {
+                _forecolor = value;
+                this.InvokePropertyChanged();
+            }
+        }
 
         public Card(string value)
         {
@@ -37,6 +58,11 @@ namespace MatchingGameSystem
         {
             return this.Value == card.Value;
         }
+        private void InvokePropertyChanged([CallerMemberName] string propertyname = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyname));
+        }
+
 
     }
 }

@@ -27,8 +27,11 @@ namespace MatchingGameApp
             lstAllMatchButtons = new() { btnMatch1, btnMatch2, btnMatch3, btnMatch4, btnMatch5, btnMatch6, btnMatch7, btnMatch8, btnMatch9, btnMatch10, btnMatch11, btnMatch12, btnMatch13, btnMatch14, btnMatch15, btnMatch16 };
             lstMatchButtons1 = lstAllMatchButtons.Take(8).ToList();
             lstMatchButtons2 = lstAllMatchButtons.Skip(8).Take(8).ToList();
-            lstAllMatchButtons.ForEach(b => b.Click += CardClicked);
-            lblGameStatus.Text = "Click Start to begin game";
+           // lstAllMatchButtons.ForEach(b => b.Click += CardClicked);
+            lblGameStatus.DataBindings.Add("Text", game, "GameStatusDescription");
+            lblPlayer1Score.DataBindings.Add("Text", game, "Player1ScoreDescription");
+            lblPlayer2Score.DataBindings.Add("Text", game, "Player2ScoreDescription");
+
         }
 
         private string GetGameRules()
@@ -39,7 +42,7 @@ namespace MatchingGameApp
         Gameplay:
         
         Turn Structure: Players take turns choosing a card from the top 8 and a card from the bottom 8.
-        Matching: If the chosen cards match, the player receives a point, and the matched cards turn black.
+        Matching: If the chosen cards match, the player receives a point
         Non-Matching: If the cards do not match, they will flip back over after a one-second delay.
         Next Turn: After a turn, Player 2 will play its turn.
         """;
@@ -50,6 +53,17 @@ namespace MatchingGameApp
         {
             MessageBox.Show(GetGameRules());
             game.StartGame();
+            for (int i = 0; i < lstAllMatchButtons.Count; i++)
+            {
+                Button btn = lstAllMatchButtons[i];
+                Card card = game.lstAllCards[i];
+
+                btn.DataBindings.Clear(); // prevent binding duplicates
+                btn.DataBindings.Add("Text", card, "Value");
+                btn.DataBindings.Add("BackColor", card, "BackColor");
+                btn.DataBindings.Add("ForeColor", card, "ForeColor");
+                btn.Click += CardClicked;
+            }
         }
 
 
@@ -58,29 +72,8 @@ namespace MatchingGameApp
 
             int num = lstAllMatchButtons.IndexOf(btn);
             await game.DoTurn(num);
-            UpdateUI();
         }
 
-        private async Task UpdateUI()
-        {
-            for (int i = 0; i < lstAllMatchButtons.Count; i++)
-            {
-                Button btn = lstAllMatchButtons[i];
-                Card card = game.lstAllCards[i];
-
-                btn.Text = card.IsRevealed || card.IsMatched ? card.Value : "";
-                btn.ForeColor = card.ForeColor;
-                btn.Refresh();  // Force redraw immediately (optional)
-            }
-
-            lblPlayer1Score.Text = $"Player 1: {game.Player1Score}";
-            lblPlayer2Score.Text = $"Player 2: {game.Player2Score}";
-            lblGameStatus.Text = game.GameStatus.ToString() + game.CurrentTurn.ToString();
-        }
-
-
-
-   
         private async void CardClicked(object? sender, EventArgs e)
         {
             if (sender is Button btn)

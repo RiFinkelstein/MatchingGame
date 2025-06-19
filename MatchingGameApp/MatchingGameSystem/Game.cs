@@ -1,19 +1,75 @@
-﻿using System.Drawing;
+﻿using System.ComponentModel;
+using System.Drawing;
+using System.Runtime.CompilerServices;
+
+using System.Collections.Generic;
+
 
 namespace MatchingGameSystem
 {
-    public class Game
+    public class Game : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        GameStatusEnum _gamestatus = GameStatusEnum.NotStarted;
+        TurnEnum _currentturn;
+        int _player1score;
+        int _player2score;
+
         public enum GameStatusEnum { NotStarted, Playing, Winner, Tie }
         public enum TurnEnum { None, player1, player2 }
 
-        public int Player1Score { get; set; }
-        public int Player2Score { get; set; }
 
-        public TurnEnum CurrentTurn { get; set; }
+        public int Player1Score
+        {
+            get => _player1score; set
+            {
+                _player1score = value;
+                this.InvokePropertyChanged();
+                this.InvokePropertyChanged("Player1ScoreDescription");
 
-        public GameStatusEnum GameStatus { get; set; }
-        public string GameStatusDescription { get; set; } // this will be calculated based on the gamestatusenum
+            }
+        }
+        public int Player2Score
+        {
+            get => _player2score; set
+            {
+                _player2score = value;
+                this.InvokePropertyChanged();
+                this.InvokePropertyChanged("Player2ScoreDescription");
+
+            }
+        }
+
+        public string Player1ScoreDescription { get => $"Player 1: {Player1Score}"; }
+        public string Player2ScoreDescription { get => $"Player 2: {Player2Score}"; } //calculated 
+
+
+        public TurnEnum CurrentTurn
+        {
+            get => _currentturn; set
+            {
+                _currentturn = value;
+                this.InvokePropertyChanged();
+                this.InvokePropertyChanged("GameStatusDescription");
+            }
+
+        }
+
+        public GameStatusEnum GameStatus
+        {
+            get => _gamestatus; set
+            {
+                _gamestatus = value;
+                this.InvokePropertyChanged();
+                this.InvokePropertyChanged("CurrentTurn");
+
+                this.InvokePropertyChanged("GameStatusDescription");
+            }
+
+        }
+        public string GameStatusDescription { get => GameStatusDescriptionString(); } //calculated 
+
 
         public Card MatchPart1 { get; set; }
 
@@ -38,6 +94,17 @@ namespace MatchingGameSystem
 
         public Game()
         {
+        }
+
+
+
+
+        public void StartGame()
+        {
+            Player1Score = 0;
+            Player2Score = 0;
+            GameStatus = GameStatusEnum.Playing;
+            CurrentTurn = TurnEnum.player1;
             this.lstCardsBottomRow.ForEach(b => b.BackColor = this.BottomCardsHiddenColor);
             this.lstCardsTopRow.ForEach(b => b.BackColor = this.TopCardsHiddendColor);
             lstCardsTopRow.Clear();
@@ -51,22 +118,7 @@ namespace MatchingGameSystem
             }
 
             lstAllCards = lstCardsTopRow.Concat(lstCardsBottomRow).ToList();
-
-        }
-
-
-
-
-        public void StartGame()
-        {
-            //lstAllCards.ForEach(b => card.IsRevealed = true);
-            GameStatusDescription = $"Current Turn: {CurrentTurn.ToString()}";
-            Player1Score = 0;
-            Player2Score = 0;
-            GameStatus = GameStatusEnum.Playing;
-            CurrentTurn = TurnEnum.player1;
             AddWordsToButton();
-            //btnStart.Text = "Restart";
         }
 
         public void AddWordsToButton()
@@ -114,6 +166,15 @@ namespace MatchingGameSystem
                     }
                     else if (MatchPart2 == null)
                     {
+                        if (
+          (lstCardsTopRow.Contains(MatchPart1) && lstCardsTopRow.Contains(card)) ||
+          (lstCardsBottomRow.Contains(MatchPart1) && lstCardsBottomRow.Contains(card))
+        )
+                        {
+                            return; // same row — ignore selection
+                        }
+
+
                         card.Reveal();
                         MatchPart2 = card;
 
@@ -141,7 +202,6 @@ namespace MatchingGameSystem
                         if (!IsGameOver())
                         {
                             SwitchTurn();
-                            //lblGameStatus.Text = "Current Turn: " + CurrentTurn;
                             GameStatus = GameStatusEnum.Playing;
                         }
                     }
@@ -151,13 +211,17 @@ namespace MatchingGameSystem
                         await Task.Delay(2000);
                         // Reset unmatched buttons
 
-                        MatchPart1.Hide(TopCardsHiddendColor);  // properly hide top card
-                        MatchPart2.Hide(BottomCardsHiddenColor); // properly hide bottom card
+                        MatchPart1.Hide(
+                            lstCardsTopRow.Contains(MatchPart1) ? TopCardsHiddendColor : BottomCardsHiddenColor
+                        );
+                        MatchPart2.Hide(
+                            lstCardsTopRow.Contains(MatchPart2) ? TopCardsHiddendColor : BottomCardsHiddenColor
+                        );
+
 
                         MatchPart1 = null;
                         MatchPart2 = null;
                         SwitchTurn();
-                        //lblGameStatus.Text = "Current Turn: " + CurrentTurn;
 
                     }
                     isCheckingMatch = false;
@@ -210,5 +274,41 @@ namespace MatchingGameSystem
             }
             return false;
         }
+
+        private string GameStatusDescriptionString()
+        {
+            string msg = "";
+            if (GameStatus == GameStatusEnum.NotStarted)
+            {
+                msg = "Press start to begin playing";
+            }
+            else if (GameStatus == GameStatusEnum.Playing)
+            {
+                msg = $"Game Status: Playing   Current Turn: {CurrentTurn}";
+            }
+            else if (GameStatus == GameStatusEnum.Tie)
+            {
+                msg = "Game Over! its a Tie! Press Start to play again";
+            }
+            else
+            {
+                if (Player1Score > Player2Score)
+                {
+                    msg = "Game Over! Player 1 Wins! Press Start to play again";
+                }
+                else
+                {
+                    msg = "Game Over! Player 2 Wins! Press Start to play again";
+                }
+            }
+
+            return msg;
+        }
+
+        private void InvokePropertyChanged([CallerMemberName] string propertyname = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyname));
+        }
+
     }
 }
