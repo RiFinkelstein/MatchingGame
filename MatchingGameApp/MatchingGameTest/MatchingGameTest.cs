@@ -15,8 +15,8 @@ namespace MatchingGameTest
         {
             Game game = new();
             game.StartGame();
-            string msg = $"Game status = {game.GameStatus.ToString()} current turn= {game.CurrentTurn.ToString()} top cards count = {game.lstCardsTopRow.Count.ToString()} bottom cards count= {game.lstCardsBottomRow.Count.ToString()}";
-            Assert.IsTrue(game.GameStatus == Game.GameStatusEnum.Playing && game.CurrentTurn == Game.TurnEnum.player1 && game.lstCardsBottomRow.Count == 8 && game.lstCardsTopRow.Count == 8, msg);
+            string msg = $"Game status = {game.GameStatus.ToString()} current turn= {game.CurrentTurn.ToString()} top cards count = {game.CardsTopRow.Count.ToString()} bottom cards count= {game.CardsBottomRow.Count.ToString()}";
+            Assert.IsTrue(game.GameStatus == Game.GameStatusEnum.Playing && game.CurrentTurn == Game.TurnEnum.player1 && game.CardsBottomRow.Count == 8 && game.CardsTopRow.Count == 8, msg);
             TestContext.WriteLine(msg);
         }
 
@@ -27,21 +27,21 @@ namespace MatchingGameTest
             game.AddWordsToButton();
 
             // Assert: check top and bottom rows each have 8 cards
-            Assert.AreEqual(8, game.lstCardsTopRow.Count, "Top row should have 8 cards.");
-            Assert.AreEqual(8, game.lstCardsBottomRow.Count, "Bottom row should have 8 cards.");
+            Assert.AreEqual(8, game.CardsTopRow.Count, "Top row should have 8 cards.");
+            Assert.AreEqual(8, game.CardsBottomRow.Count, "Bottom row should have 8 cards.");
 
             // Assert: each value in lstCardNames is in top row exactly once
             foreach (var name in game.lstCardNames)
             {
-                Assert.AreEqual(1, game.lstCardsTopRow.Count(c => c.Value == name), $"Top row should contain '{name}' exactly once.");
-                Assert.AreEqual(1, game.lstCardsBottomRow.Count(c => c.Value == name), $"Bottom row should contain '{name}' exactly once.");
+                Assert.AreEqual(1, game.CardsTopRow.Count(c => c.Value == name), $"Top row should contain '{name}' exactly once.");
+                Assert.AreEqual(1, game.CardsBottomRow.Count(c => c.Value == name), $"Bottom row should contain '{name}' exactly once.");
             }
 
             // Assert: top and bottom rows are not in the same order (usually true)
             bool sameOrder = true;
             for (int i = 0; i < 8; i++)
             {
-                if (game.lstCardsTopRow[i].Value != game.lstCardsBottomRow[i].Value)
+                if (game.CardsTopRow[i].Value != game.CardsBottomRow[i].Value)
                 {
                     sameOrder = false;
                     break;
@@ -50,8 +50,8 @@ namespace MatchingGameTest
             Assert.IsFalse(sameOrder, "Top and bottom rows should be shuffled into different orders.");
 
             // Output
-            TestContext.WriteLine("Top Row: " + string.Join(", ", game.lstCardsTopRow.Select(c => c.Value)));
-            TestContext.WriteLine("Bottom Row: " + string.Join(", ", game.lstCardsBottomRow.Select(c => c.Value)));
+            TestContext.WriteLine("Top Row: " + string.Join(", ", game.CardsTopRow.Select(c => c.Value)));
+            TestContext.WriteLine("Bottom Row: " + string.Join(", ", game.CardsBottomRow.Select(c => c.Value)));
         }
 
         [TestCase(true)]
@@ -128,7 +128,7 @@ namespace MatchingGameTest
             game.StartGame();
 
             // Simulate all cards matched
-            game.lstMatchFound = game.AllCards.ToList();
+            game.MatchFound = game.AllCards.ToList();
             game.Player1Score = 5;
             game.Player2Score = 3;
 

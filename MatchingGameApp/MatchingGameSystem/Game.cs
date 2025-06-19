@@ -5,16 +5,17 @@ using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 
 
+
 namespace MatchingGameSystem
 {
     public class Game : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        GameStatusEnum _gamestatus = GameStatusEnum.NotStarted;
-        TurnEnum _currentturn;
-        int _player1score;
-        int _player2score;
+        private GameStatusEnum _gamestatus = GameStatusEnum.NotStarted;
+        private TurnEnum _currentturn;
+        private int _player1score;
+        private int _player2score;
 
         public enum GameStatusEnum { NotStarted, Playing, Winner, Tie }
         public enum TurnEnum { None, player1, player2 }
@@ -42,7 +43,7 @@ namespace MatchingGameSystem
         }
 
         public string Player1ScoreDescription { get => $"Player 1: {Player1Score}"; }
-        public string Player2ScoreDescription { get => $"Player 2: {Player2Score}"; } //calculated 
+        public string Player2ScoreDescription { get => $"Player 2: {Player2Score}"; }  
 
 
         public TurnEnum CurrentTurn
@@ -71,21 +72,19 @@ namespace MatchingGameSystem
         public string GameStatusDescription { get => GameStatusDescriptionString(); } //calculated 
 
 
-        public Card MatchPart1 { get; set; }
+        public Card? MatchPart1 { get; set; }
 
-        public Card MatchPart2 { get; set; }
+        public Card? MatchPart2 { get; set; }
 
-        public List<Card> AllCards { get; set; } = new();
+        private List<Card> AllCards { get; set; } = new();
 
-        public List<Card> lstCardsTopRow { get; set; } = new();
+        private List<Card> CardsTopRow { get; set; } = new();
 
-        public List<Card> lstCardsBottomRow { get; set; } = new();
-        public List<Card> lstMatchFound { get; set; } = new();
+        private List<Card> CardsBottomRow { get; set; } = new();
+        private List<Card> MatchFound { get; set; } = new();
+        private List<string> CardNames { get; set; } = new() { "A", "B", "C", "D", "E", "F", "G", "H" };
 
-
-        public List<string> lstCardNames { get; set; } = new() { "A", "B", "C", "D", "E", "F", "G", "H" };
-
-        public bool isCheckingMatch = false;
+        private bool isCheckingMatch = false;
 
         public System.Drawing.Color TopCardsHiddendColor { get; set; } = System.Drawing.Color.LightBlue;
         public System.Drawing.Color BottomCardsHiddenColor { get; set; } = System.Drawing.Color.LightPink;
@@ -96,28 +95,25 @@ namespace MatchingGameSystem
         {
         }
 
-
-
-
         public void StartGame()
         {
             Player1Score = 0;
             Player2Score = 0;
             GameStatus = GameStatusEnum.Playing;
             CurrentTurn = TurnEnum.player1;
-            this.lstCardsBottomRow.ForEach(b => b.BackColor = this.BottomCardsHiddenColor);
-            this.lstCardsTopRow.ForEach(b => b.BackColor = this.TopCardsHiddendColor);
-            lstCardsTopRow.Clear();
-            lstCardsBottomRow.Clear();
+            this.CardsBottomRow.ForEach(b => b.BackColor = this.BottomCardsHiddenColor);
+            this.CardsTopRow.ForEach(b => b.BackColor = this.TopCardsHiddendColor);
+            CardsTopRow.Clear();
+            CardsBottomRow.Clear();
             AllCards.Clear();
 
             for (int i = 0; i < 8; i++)
             {
-                lstCardsTopRow.Add(new Card(""));
-                lstCardsBottomRow.Add(new Card(""));
+                CardsTopRow.Add(new Card(""));
+                CardsBottomRow.Add(new Card(""));
             }
 
-            AllCards = lstCardsTopRow.Concat(lstCardsBottomRow).ToList();
+            AllCards = CardsTopRow.Concat(CardsBottomRow).ToList();
             AddWordsToButton();
         }
 
@@ -125,36 +121,36 @@ namespace MatchingGameSystem
         {
             // Shuffle the names for both rows independently
             var rnd = new Random();
-            var shuffledTop = lstCardNames.OrderBy(x => rnd.Next()).ToList();
-            var shuffledBottom = lstCardNames.OrderBy(x => rnd.Next()).ToList();
+            var shuffledTop = CardNames.OrderBy(x => rnd.Next()).ToList();
+            var shuffledBottom = CardNames.OrderBy(x => rnd.Next()).ToList();
 
             //Assign values to the top row
             for (int i = 0; i < 8; i++)
             {
-                lstCardsTopRow[i].Value = shuffledTop[i];
-                lstCardsTopRow[i].IsMatched = false;
-                lstCardsTopRow[i].IsRevealed = false;
-                lstCardsTopRow[i].BackColor = TopCardsHiddendColor;
-                lstCardsTopRow[i].ForeColor = TopCardsHiddendColor;
+                CardsTopRow[i].Value = shuffledTop[i];
+                CardsTopRow[i].IsMatched = false;
+                CardsTopRow[i].IsRevealed = false;
+                CardsTopRow[i].BackColor = TopCardsHiddendColor;
+                CardsTopRow[i].ForeColor = TopCardsHiddendColor;
             }
 
             //Assign values to the bottom row
             for (int i = 0; i < 8; i++)
             {
-                lstCardsBottomRow[i].Value = shuffledBottom[i];
-                lstCardsBottomRow[i].IsMatched = false;
-                lstCardsBottomRow[i].IsRevealed = false;
-                lstCardsBottomRow[i].BackColor = BottomCardsHiddenColor;
-                lstCardsBottomRow[i].ForeColor = BottomCardsHiddenColor;
+                CardsBottomRow[i].Value = shuffledBottom[i];
+                CardsBottomRow[i].IsMatched = false;
+                CardsBottomRow[i].IsRevealed = false;
+                CardsBottomRow[i].BackColor = BottomCardsHiddenColor;
+                CardsBottomRow[i].ForeColor = BottomCardsHiddenColor;
             }
             //Rebuild the full list of all cards
-            AllCards = lstCardsTopRow.Concat(lstCardsBottomRow).ToList();
+            AllCards = CardsTopRow.Concat(CardsBottomRow).ToList();
         }
         public async Task DoTurn(int cardnum)
         {
             Card card = this.AllCards[cardnum];
 
-            if (lstMatchFound.Contains(card) == false && GameStatus == GameStatusEnum.Playing)
+            if (MatchFound.Contains(card) == false && GameStatus == GameStatusEnum.Playing)
             {
                 if (!card.IsRevealed)  // if card is not revealed already
                 {
@@ -167,8 +163,8 @@ namespace MatchingGameSystem
                     else if (MatchPart2 == null)
                     {
                         if (
-          (lstCardsTopRow.Contains(MatchPart1) && lstCardsTopRow.Contains(card)) ||
-          (lstCardsBottomRow.Contains(MatchPart1) && lstCardsBottomRow.Contains(card))
+          (CardsTopRow.Contains(MatchPart1) && CardsTopRow.Contains(card)) ||
+          (CardsBottomRow.Contains(MatchPart1) && CardsBottomRow.Contains(card))
         )
                         {
                             return; // same row — ignore selection
@@ -195,8 +191,8 @@ namespace MatchingGameSystem
                     if (MatchPart1.Value == MatchPart2.Value)
                     {
                         UpdateScore();
-                        lstMatchFound.Add(MatchPart1);
-                        lstMatchFound.Add(MatchPart2);
+                        MatchFound.Add(MatchPart1);
+                        MatchFound.Add(MatchPart2);
                         MatchPart1 = null;
                         MatchPart2 = null;
                         if (!IsGameOver())
@@ -212,10 +208,10 @@ namespace MatchingGameSystem
                         // Reset unmatched buttons
 
                         MatchPart1.Hide(
-                            lstCardsTopRow.Contains(MatchPart1) ? TopCardsHiddendColor : BottomCardsHiddenColor
+                            CardsTopRow.Contains(MatchPart1) ? TopCardsHiddendColor : BottomCardsHiddenColor
                         );
                         MatchPart2.Hide(
-                            lstCardsTopRow.Contains(MatchPart2) ? TopCardsHiddendColor : BottomCardsHiddenColor
+                            CardsTopRow.Contains(MatchPart2) ? TopCardsHiddendColor : BottomCardsHiddenColor
                         );
 
 
@@ -250,7 +246,7 @@ namespace MatchingGameSystem
         public bool IsGameOver()
         {
             var winner = "";
-            if (lstMatchFound.Count == AllCards.Count)
+            if (MatchFound.Count == AllCards.Count)
             {
                 if (Player1Score > Player2Score)
                 {
@@ -275,34 +271,20 @@ namespace MatchingGameSystem
             return false;
         }
 
+
+
         private string GameStatusDescriptionString()
         {
-            string msg = "";
-            if (GameStatus == GameStatusEnum.NotStarted)
+            return GameStatus switch
             {
-                msg = "Press start to begin playing";
-            }
-            else if (GameStatus == GameStatusEnum.Playing)
-            {
-                msg = $"Game Status: Playing   Current Turn: {CurrentTurn}";
-            }
-            else if (GameStatus == GameStatusEnum.Tie)
-            {
-                msg = "Game Over! its a Tie! Press Start to play again";
-            }
-            else
-            {
-                if (Player1Score > Player2Score)
-                {
-                    msg = "Game Over! Player 1 Wins! Press Start to play again";
-                }
-                else
-                {
-                    msg = "Game Over! Player 2 Wins! Press Start to play again";
-                }
-            }
-
-            return msg;
+                GameStatusEnum.NotStarted => "Press start to begin playing",
+                GameStatusEnum.Playing => $"Game Status: Playing   Current Turn: {CurrentTurn}",
+                GameStatusEnum.Tie => "Game Over! It's a Tie! Press Start to play again",
+                GameStatusEnum.Winner => Player1Score > Player2Score
+                    ? "Game Over! Player 1 Wins! Press Start to play again"
+                    : "Game Over! Player 2 Wins! Press Start to play again",
+                _ => ""
+            };
         }
 
         private void InvokePropertyChanged([CallerMemberName] string propertyname = "")
