@@ -64,7 +64,6 @@ namespace MatchingGameSystem
         public void Reveal()
         {
             IsRevealed = true;
-            //ForeColor = game.CardsRevealedColor;
         }
         public void Hide(Color hiddencolor)
         {

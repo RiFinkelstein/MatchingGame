@@ -111,8 +111,6 @@ namespace MatchingGameSystem
             Player2Score = 0;
             GameStatus = GameStatusEnum.Playing;
             CurrentTurn = TurnEnum.player1;
-            this.CardsBottomRow.ForEach(b => b.BackColor = this.BottomCardsHiddenColor);
-            this.CardsTopRow.ForEach(b => b.BackColor = this.TopCardsHiddendColor);
             CardsTopRow.Clear();
             CardsBottomRow.Clear();
             AllCards.Clear();
