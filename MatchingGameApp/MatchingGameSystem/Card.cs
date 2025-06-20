@@ -39,6 +39,7 @@ namespace MatchingGameSystem
             {
                 _forecolor = value;
                 this.InvokePropertyChanged();
+                this.InvokePropertyChanged(nameof(ForeColorMaui));
             }
         }
         public Microsoft.Maui.Graphics.Color BackColorMaui
@@ -63,7 +64,7 @@ namespace MatchingGameSystem
         public void Reveal()
         {
             IsRevealed = true;
-            ForeColor = Color.Black;
+            //ForeColor = game.CardsRevealedColor;
         }
         public void Hide(Color hiddencolor)
         {

@@ -168,7 +168,7 @@ namespace MatchingGameSystem
                     {
                         card.Reveal();
                         MatchPart1 = card;
-
+                        card.ForeColor = this.CardsRevealedColor;
                     }
                     else if (MatchPart2 == null)
                     {
@@ -180,7 +180,7 @@ namespace MatchingGameSystem
                             return; // same row — ignore selection
                         }
 
-
+                        card.ForeColor = this.CardsRevealedColor;
                         card.Reveal();
                         MatchPart2 = card;
 
@@ -237,19 +237,16 @@ namespace MatchingGameSystem
         public void SwitchTurn()
         {
             CurrentTurn = CurrentTurn == TurnEnum.player1 ? TurnEnum.player2 : TurnEnum.player1;
-            //lblGameStatus.Text = "Current Turn: " + CurrentTurn;
         }
         public void UpdateScore()
         {
             if (CurrentTurn == TurnEnum.player1)
             {
                 Player1Score++;
-                //lblPlayer1Score.Text = "Player 1: " + ScorePlayer1.ToString();
             }
             else
             {
                 Player2Score++;
-                //lblPlayer2Score.Text = "Player 2: " + ScorePlayer2.ToString();
             }
         }
 
@@ -274,9 +271,7 @@ namespace MatchingGameSystem
                     winner = "Tie";
                     GameStatus = GameStatusEnum.Tie;
                 }
-                //lblGameStatus.Text = winner + Environment.NewLine + "Game Over - Press Restart to play again";
                 return true;
-
             }
             return false;
         }
