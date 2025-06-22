@@ -52,6 +52,12 @@ namespace MatchingGameSystem
         public string Player1ScoreDescription { get => $"Player 1: {Player1Score}"; }
         public string Player2ScoreDescription { get => $"Player 2: {Player2Score}"; }
         public static string TotalScore { get => $"Total Wins: Player 1:{player1wins}  Player 2:{player2wins}  Ties:{totalties}"; }
+        public static string TotalTieslabel { get => $"Ties:{totalties}"; }
+        public static string Player1Wins { get => $"Player 1:{player1wins}"; }
+        public static string Player2Wins { get => $"Player 2:{player2wins}"; }
+
+
+
         public TurnEnum CurrentTurn
         {
             get => _currentturn; set
@@ -99,7 +105,7 @@ namespace MatchingGameSystem
         public List<string> CardNames { get; set; } = new() { "A", "B", "C", "D", "E", "F", "G", "H" };
 
         private bool isCheckingMatch = false;
-        public string GameName { get; private set; }
+        public string GameName { get; private set; } = $"Game {numgames}";
 
 
 
@@ -282,12 +288,12 @@ namespace MatchingGameSystem
         {
             return GameStatus switch
             {
-                GameStatusEnum.NotStarted => "Press start to begin playing",
-                GameStatusEnum.Playing => $"Game Status: Playing   Current Turn: {CurrentTurn}",
-                GameStatusEnum.Tie => "Game Over! It's a Tie! Press Start to play again",
+                GameStatusEnum.NotStarted => $"{GameName}: Press start to begin playing",
+                GameStatusEnum.Playing => $"{GameName}: Game Status: Playing   Current Turn: {CurrentTurn}",
+                GameStatusEnum.Tie => $"{GameName}: Game Over! It's a Tie! Press Start to play again",
                 GameStatusEnum.Winner => Player1Score > Player2Score
-                    ? "Game Over! Player 1 Wins! Press Start to play again"
-                    : "Game Over! Player 2 Wins! Press Start to play again",
+                    ? $"{GameName}: Game Over! Player 1 Wins! Press Start to play again"
+                    : $"{GameName}: Game Over! Player 2 Wins! Press Start to play again",
                 _ => ""
             };
         }

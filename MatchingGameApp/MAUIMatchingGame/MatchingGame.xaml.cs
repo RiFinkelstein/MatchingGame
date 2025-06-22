@@ -3,8 +3,8 @@ namespace MAUIMatchingGame;
 
 public partial class MatchingGame : ContentPage
 {
-    Game activegame = new();
     List<Game> lstgame = new() { new Game(), new Game(), new Game() };
+    Game activegame;
     List<Button> AllMatchButtons;
 
 
@@ -12,7 +12,7 @@ public partial class MatchingGame : ContentPage
     {
         InitializeComponent();
 
-        lstgame.ForEach(g => g.Scorechanged += G_Scorechnaged); 
+        lstgame.ForEach(g => g.Scorechanged += G_Scorechanged); 
         Game1Rb.BindingContext = lstgame[0];
         Game2Rb.BindingContext = lstgame[1];
         Game3Rb.BindingContext = lstgame[2];
@@ -27,9 +27,12 @@ public partial class MatchingGame : ContentPage
             AllMatchButtons[i].BindingContext = activegame.AllCards.Count > i ? activegame.AllCards[i] : null;
         }
     }
-    private void G_Scorechnaged(object? sender, EventArgs e)
+    private void G_Scorechanged(object? sender, EventArgs e)
     {
-        TotalScorelbl.Text = Game.TotalScore;
+        totaltieslbl.Text = Game.TotalTieslabel;
+        player1winslbl.Text = Game.Player1Wins;
+        player2winslbl.Text = Game.Player2Wins;
+
     }
 
     private void StartbtnButton_Clicked(object sender, EventArgs e)
@@ -55,7 +58,6 @@ public partial class MatchingGame : ContentPage
         {
             activegame = (Game)rb.BindingContext;
             this.BindingContext = activegame;
-            TotalScorelbl.Text = Game.TotalScore;
             // Rebind buttons to correct game's cards
             for (int i = 0; i < AllMatchButtons.Count; i++)
             {
