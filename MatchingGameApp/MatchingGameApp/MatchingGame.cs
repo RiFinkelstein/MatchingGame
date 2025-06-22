@@ -68,7 +68,6 @@ namespace MatchingGameApp
 
         private async Task DoTurn(Button btn)
         {
-
             int num = AllMatchButtons.IndexOf(btn);
             await game.DoTurn(num);
         }

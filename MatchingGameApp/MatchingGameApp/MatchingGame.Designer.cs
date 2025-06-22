@@ -53,6 +53,7 @@
             btnMatch14 = new Button();
             btnMatch15 = new Button();
             btnMatch16 = new Button();
+            lblTotalScores = new Label();
             tblMain.SuspendLayout();
             tblToolbar.SuspendLayout();
             tblGameStatus.SuspendLayout();
@@ -90,6 +91,7 @@
             tblToolbar.Controls.Add(lblScore, 3, 0);
             tblToolbar.Controls.Add(lblPlayer1Score, 4, 0);
             tblToolbar.Controls.Add(lblPlayer2Score, 5, 0);
+            tblToolbar.Controls.Add(lblTotalScores, 2, 0);
             tblToolbar.Dock = DockStyle.Fill;
             tblToolbar.Location = new Point(3, 3);
             tblToolbar.Name = "tblToolbar";
@@ -400,6 +402,17 @@
             btnMatch16.TabIndex = 18;
             btnMatch16.UseVisualStyleBackColor = false;
             // 
+            // lblTotalScores
+            // 
+            lblTotalScores.AutoSize = true;
+            lblTotalScores.Dock = DockStyle.Fill;
+            lblTotalScores.Location = new Point(211, 0);
+            lblTotalScores.Name = "lblTotalScores";
+            lblTotalScores.Size = new Size(230, 63);
+            lblTotalScores.TabIndex = 6;
+            lblTotalScores.Text = "Total Score ";
+            lblTotalScores.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // MatchingGame
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -444,5 +457,6 @@
         private Button btnMatch1;
         private Button btnMatch2;
         private Button btnMatch3;
+        private Label lblTotalScores;
     }
 }

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Runtime.CompilerServices;
 
 using System.Collections.Generic;
+using System;
 
 
 
@@ -11,12 +12,17 @@ namespace MatchingGameSystem
     public class Game : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler? Scorechanged;
 
         private GameStatusEnum _gamestatus = GameStatusEnum.NotStarted;
         private TurnEnum _currentturn;
         private int _player1score;
         private int _player2score;
         private List<Card> _allCards = new();
+        private static int player1wins;
+        private static int player2wins;
+        private static int totalties;
+        private static int numgames;
 
         public enum GameStatusEnum { NotStarted, Playing, Winner, Tie }
         public enum TurnEnum { None, player1, player2 }
@@ -44,9 +50,8 @@ namespace MatchingGameSystem
         }
 
         public string Player1ScoreDescription { get => $"Player 1: {Player1Score}"; }
-        public string Player2ScoreDescription { get => $"Player 2: {Player2Score}"; }  
-
-
+        public string Player2ScoreDescription { get => $"Player 2: {Player2Score}"; }
+        public static string TotalScore { get => $"Total Wins: Player 1:{player1wins}  Player 2:{player2wins}  Ties:{totalties}"; }
         public TurnEnum CurrentTurn
         {
             get => _currentturn; set
@@ -65,7 +70,6 @@ namespace MatchingGameSystem
                 _gamestatus = value;
                 this.InvokePropertyChanged();
                 this.InvokePropertyChanged("CurrentTurn");
-
                 this.InvokePropertyChanged("GameStatusDescription");
             }
 
@@ -86,7 +90,7 @@ namespace MatchingGameSystem
                 this.InvokePropertyChanged();
 
             }
-        } 
+        }
 
         public List<Card> CardsTopRow { get; set; } = new();
 
@@ -95,6 +99,9 @@ namespace MatchingGameSystem
         public List<string> CardNames { get; set; } = new() { "A", "B", "C", "D", "E", "F", "G", "H" };
 
         private bool isCheckingMatch = false;
+        public string GameName { get; private set; }
+
+
 
         public System.Drawing.Color TopCardsHiddendColor { get; set; } = System.Drawing.Color.LightBlue;
         public System.Drawing.Color BottomCardsHiddenColor { get; set; } = System.Drawing.Color.LightPink;
@@ -103,6 +110,8 @@ namespace MatchingGameSystem
 
         public Game()
         {
+            numgames++;
+            this.GameName = "Game " + numgames;
         }
 
         public void StartGame()
@@ -203,46 +212,52 @@ namespace MatchingGameSystem
                         MatchFound.Add(MatchPart2);
                         MatchPart1 = null;
                         MatchPart2 = null;
-                    if (MatchFound.Count == AllCards.Count)
-                    {
-                        // Game is over
-                        if (Player1Score > Player2Score)
+                        if (MatchFound.Count == AllCards.Count)
                         {
-                            GameStatus = GameStatusEnum.Winner;
-                        }
-                        else if (Player2Score > Player1Score)
-                        {
-                            GameStatus = GameStatusEnum.Winner;
+                            // Game is over
+                            if (Player1Score > Player2Score)
+                            {
+                                GameStatus = GameStatusEnum.Winner;
+                                player1wins++;
+                                Scorechanged?.Invoke(this, new EventArgs());
+
+                            }
+                            else if (Player2Score > Player1Score)
+                            {
+                                GameStatus = GameStatusEnum.Winner;
+                                player2wins++;
+                                Scorechanged?.Invoke(this, new EventArgs());
+
+
+                            }
+                            else
+                            {
+                                GameStatus = GameStatusEnum.Tie;
+                                totalties++;
+                                Scorechanged?.Invoke(this, new EventArgs());
+                            }
                         }
                         else
                         {
-                            GameStatus = GameStatusEnum.Tie;
+                            SwitchTurn();
                         }
                     }
                     else
                     {
+                        //when the wrong match is turned over then the progam waits a few seconds and then turns the cards back over
+                        await Task.Delay(2000);
+                        // Reset unmatched buttons
+
+                        MatchPart1.Hide(
+                            CardsTopRow.Contains(MatchPart1) ? TopCardsHiddendColor : BottomCardsHiddenColor
+                        );
+                        MatchPart2.Hide(
+                            CardsTopRow.Contains(MatchPart2) ? TopCardsHiddendColor : BottomCardsHiddenColor
+                        );
+                        MatchPart1 = null;
+                        MatchPart2 = null;
                         SwitchTurn();
                     }
-                }
-                else
-                {
-                    //when the wrong match is turned over then the progam waits a few seconds and then turns the cards back over
-                    await Task.Delay(2000);
-                    // Reset unmatched buttons
-
-                    MatchPart1.Hide(
-                        CardsTopRow.Contains(MatchPart1) ? TopCardsHiddendColor : BottomCardsHiddenColor
-                    );
-                    MatchPart2.Hide(
-                        CardsTopRow.Contains(MatchPart2) ? TopCardsHiddendColor : BottomCardsHiddenColor
-                    );
-
-
-                    MatchPart1 = null;
-                    MatchPart2 = null;
-                    SwitchTurn();
-
-                }
                     isCheckingMatch = false;
                 }
             }
