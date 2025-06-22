@@ -24,6 +24,7 @@ namespace MatchingGameTest
         public void TestAddWordsToButton()
         {
             Game game = new();
+            game.StartGame();
             game.AddWordsToButton();
 
             // Assert: check top and bottom rows each have 8 cards
@@ -31,7 +32,7 @@ namespace MatchingGameTest
             Assert.AreEqual(8, game.CardsBottomRow.Count, "Bottom row should have 8 cards.");
 
             // Assert: each value in lstCardNames is in top row exactly once
-            foreach (var name in game.lstCardNames)
+            foreach (var name in game.CardNames)
             {
                 Assert.AreEqual(1, game.CardsTopRow.Count(c => c.Value == name), $"Top row should contain '{name}' exactly once.");
                 Assert.AreEqual(1, game.CardsBottomRow.Count(c => c.Value == name), $"Bottom row should contain '{name}' exactly once.");
