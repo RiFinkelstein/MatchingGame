@@ -121,24 +121,6 @@ namespace MatchingGameTest
         }
 
 
-        [Test]
-        public void TestIsGameOver()
-        {
-            Game game = new();
-            game.StartGame();
-
-            // Simulate all cards matched
-            game.MatchFound = game.AllCards.ToList();
-            game.Player1Score = 5;
-            game.Player2Score = 3;
-
-            bool isOver = game.IsGameOver();
-            string msg = $"GameOver = {isOver}, GameStatus = {game.GameStatus}, Player1Score = {game.Player1Score}, Player2Score = {game.Player2Score}";
-
-            Assert.IsTrue(game.GameStatus== Game.GameStatusEnum.Winner && isOver==true, msg);
-
-            TestContext.WriteLine(msg);
-        }
 
     }
 

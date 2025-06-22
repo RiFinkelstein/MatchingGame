@@ -88,11 +88,11 @@ namespace MatchingGameSystem
             }
         } 
 
-        private List<Card> CardsTopRow { get; set; } = new();
+        public List<Card> CardsTopRow { get; set; } = new();
 
-        private List<Card> CardsBottomRow { get; set; } = new();
+        public List<Card> CardsBottomRow { get; set; } = new();
         private List<Card> MatchFound { get; set; } = new();
-        private List<string> CardNames { get; set; } = new() { "A", "B", "C", "D", "E", "F", "G", "H" };
+        public List<string> CardNames { get; set; } = new() { "A", "B", "C", "D", "E", "F", "G", "H" };
 
         private bool isCheckingMatch = false;
 
@@ -203,31 +203,46 @@ namespace MatchingGameSystem
                         MatchFound.Add(MatchPart2);
                         MatchPart1 = null;
                         MatchPart2 = null;
-                        if (!IsGameOver())
+                    if (MatchFound.Count == AllCards.Count)
+                    {
+                        // Game is over
+                        if (Player1Score > Player2Score)
                         {
-                            SwitchTurn();
-                            GameStatus = GameStatusEnum.Playing;
+                            GameStatus = GameStatusEnum.Winner;
+                        }
+                        else if (Player2Score > Player1Score)
+                        {
+                            GameStatus = GameStatusEnum.Winner;
+                        }
+                        else
+                        {
+                            GameStatus = GameStatusEnum.Tie;
                         }
                     }
                     else
                     {
-                        //when the wrong match is turned over then the progam waits a few seconds and then turns the cards back over
-                        await Task.Delay(2000);
-                        // Reset unmatched buttons
-
-                        MatchPart1.Hide(
-                            CardsTopRow.Contains(MatchPart1) ? TopCardsHiddendColor : BottomCardsHiddenColor
-                        );
-                        MatchPart2.Hide(
-                            CardsTopRow.Contains(MatchPart2) ? TopCardsHiddendColor : BottomCardsHiddenColor
-                        );
-
-
-                        MatchPart1 = null;
-                        MatchPart2 = null;
                         SwitchTurn();
-
                     }
+                }
+                else
+                {
+                    //when the wrong match is turned over then the progam waits a few seconds and then turns the cards back over
+                    await Task.Delay(2000);
+                    // Reset unmatched buttons
+
+                    MatchPart1.Hide(
+                        CardsTopRow.Contains(MatchPart1) ? TopCardsHiddendColor : BottomCardsHiddenColor
+                    );
+                    MatchPart2.Hide(
+                        CardsTopRow.Contains(MatchPart2) ? TopCardsHiddendColor : BottomCardsHiddenColor
+                    );
+
+
+                    MatchPart1 = null;
+                    MatchPart2 = null;
+                    SwitchTurn();
+
+                }
                     isCheckingMatch = false;
                 }
             }
@@ -247,34 +262,6 @@ namespace MatchingGameSystem
                 Player2Score++;
             }
         }
-
-        public bool IsGameOver()
-        {
-            var winner = "";
-            if (MatchFound.Count == AllCards.Count)
-            {
-                if (Player1Score > Player2Score)
-                {
-                    winner = "Player 1";
-                    GameStatus = GameStatusEnum.Winner;
-                }
-                else if (Player1Score < Player2Score)
-                {
-                    winner = "Player 2";
-                    GameStatus = GameStatusEnum.Winner;
-
-                }
-                else
-                {
-                    winner = "Tie";
-                    GameStatus = GameStatusEnum.Tie;
-                }
-                return true;
-            }
-            return false;
-        }
-
-
 
         private string GameStatusDescriptionString()
         {
