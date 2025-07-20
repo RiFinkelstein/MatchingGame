@@ -4,7 +4,137 @@
     ViewData["Title"] = "Home page";
 }
 
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to the Matching Game!</h1>
+    <p class="lead">Test your memory and strategy in a fun two-player card matching challenge.</p>
 </div>
+
+<div class="container my-5">
+    <h2>🧠 Game Description</h2>
+    <p>
+        The Matching Game is a simple memory game designed for two players. There are 16 cards on the board:
+        8 pink cards and 8 blue cards. Each card hides a symbol. The goal is to find matching pairs by flipping one pink and one blue card during your turn.
+    </p>
+    <p>
+        If the two cards match, they stay revealed and you get another turn. If not, they flip back and it's the other player's turn. The game continues until all pairs are found. The player with the most matches wins!
+    </p>
+</div>
+
+<div class="container my-5">
+    <h2>📋 Game Specification</h2>
+    <ul>
+        <li>🎴 Total Cards: 16 (8 pink, 8 blue)</li>
+        <li>👥 Players: 2</li>
+        <li>
+            🔁 Turn Mechanics:
+            <ul>
+                <li>Player selects 1 pink card and 1 blue card per turn</li>
+                <li>If cards match: stay revealed, same player goes again</li>
+                <li>If not: cards flip back, next player's turn</li>
+            </ul>
+        </li>
+        <li>🏁 Game ends when all cards are matched</li>
+        <li>🏆 Winner: Player with the most matched pairs</li>
+    </ul>
+</div>
+
+<div class="container my-5">
+    <h2>🧱 Wireframe</h2>
+    <div class="border p-5 text-center text-muted" style="min-height: 300px;">
+        <img src="/images/Wireframe.png" alt="wireframe" />
+
+    </div>
+
+    <div class="container my-5">
+        <h2>📋 Software Requirements for Matching Game</h2>
+        <p>This documentation describes the requirements for the software implementation of the classic matching game. This software allows two players to play against each other or one player to play against the computer.</p>
+
+        <h5>The Game</h5>
+        <p>Two players are presented with a 5x5 grid of ‘flipped over cards’. Players take turns choosing 2 cards to reveal. If the cards match, they stay revealed and the player scores a point. Otherwise, the cards are flipped back.</p>
+
+        <h5>Software Implementation</h5>
+        <ul>
+            <li><strong>5x5 Grid of Buttons</strong>: Represents the cards.</li>
+            <li>
+                <strong>Toolbar</strong> includes:
+                <ul>
+                    <li>Start Button: To start/restart the game</li>
+                    <li>Option Buttons: Choose between 2-player or vs. computer mode</li>
+                    <li>Score Label: Displays current scores</li>
+                    <li>Turn Label: Indicates whose turn it is</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h5>Player Modes</h5>
+        <ol>
+            <li>
+                <strong>Two Player</strong>
+                <ul>
+                    <li>Players take turns selecting 2 cards</li>
+                    <li>If matched, player earns point and cards stay revealed</li>
+                    <li>If not matched, cards are flipped back after a short delay</li>
+                    <li>Turn passes to next player</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Against the Computer</strong>
+                <ul>
+                    <li>Computer takes turn after user</li>
+                    <li>Selected cards remain visible for 3 seconds</li>
+                    <li>If matched, computer earns point</li>
+                    <li>Otherwise, cards are flipped back</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h5>Game Process and Rules</h5>
+        <ul>
+            <li><strong>Game Start:</strong> Starts on "Start" button click. Before that, clicks are ignored.</li>
+            <li>
+                <strong>Player Turns:</strong>
+                <ul>
+                    <li>Click one card, then another</li>
+                    <li>If matched: point + another turn</li>
+                    <li>If not: flip back and switch turns</li>
+                    <li>Status message updates after each turn</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Computer Turn:</strong>
+                <ul>
+                    <li>Computer auto-picks two cards</li>
+                    <li>Cards shown for 3 seconds</li>
+                    <li>If match: cards stay and point awarded</li>
+                    <li>Otherwise: flipped back, player's turn resumes</li>
+                </ul>
+            </li>
+            <li><strong>Match and Score:</strong> Matched cards stay revealed. Scores updated immediately. Status reflects changes.</li>
+            <li>
+                <strong>End of Game:</strong>
+                <ul>
+                    <li>All pairs found → game ends</li>
+                    <li>Final score and winner displayed</li>
+                    <li>In case of tie → “It’s a tie.”</li>
+                    <li>Clicks ignored after win/tie</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Restarting the Game:</strong>
+                <ul>
+                    <li>Clicking “Start” during a game restarts it</li>
+                    <li>All cards reset, scores/turns reset</li>
+                    <li>Status resets to “Click Start to begin”</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Additional Rules:</strong>
+                <ul>
+                    <li>Clicks on already revealed cards are ignored</li>
+                    <li>Card buttons should not appear disabled—just unresponsive</li>
+                    <li>Provide clear visual feedback on actions</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
