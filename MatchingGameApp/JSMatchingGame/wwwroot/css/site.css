@@ -20,3 +20,28 @@ html {
 body {
   margin-bottom: 60px;
 }
+.blueCard {
+    background-color: lightblue;
+    min-width: 100px;
+    min-height: 100px;
+    width: 100%;
+    height: 100%;
+    border: 1px solid white;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    font-size: xx-large
+}
+
+.pinkCard {
+    background-color: lightpink;
+    min-width: 100px;
+    min-height: 100px;
+    width: 100%;
+    height: 100%;
+    border: 1px solid white;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    font-size: xx-large
+}

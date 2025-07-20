@@ -2,3 +2,81 @@
 @model JSMatchingGame.Pages.MatchingGameModel
 @{
 }
+<div class="row align-items-center bg-dark text-white p-3 rounded mb-4">
+    <div class="col-md-2 text-start">
+        <button class="btn btn-light w-100" id="btnStart" onclick="startGame()">Start</button>
+    </div>
+
+    <div class="col-md-4 text-center">
+        <div id="msg" class="bg-info text-dark py-2 px-3 rounded shadow-sm">
+            Message placeholder
+        </div>
+    </div>
+
+    <div class="col-md-6 text-end">
+        <div class="d-flex justify-content-end gap-4">
+            <div><strong>Score Player 1:</strong> <span id="score1">0</span></div>
+            <div><strong>Score Player 2:</strong> <span id="score2">0</span></div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <table>
+        <tr>
+            <td>
+                <button class="blueCard" id="m1"></button>
+            </td>
+            <td>
+                <button class="blueCard" id="m2"></button>
+            </td>
+            <td>
+                <button class="blueCard" id="m3"></button>
+            </td>
+            <td>
+                <button class="blueCard" id="m4"></button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button class="blueCard" id="m5"></button>
+            </td>
+            <td>
+                <button class="blueCard" id="m6"></button>
+            </td>
+            <td>
+                <button class="blueCard" id="m7"></button>
+            </td>
+            <td>
+                <button class="blueCard" id="m8"></button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button class="pinkCard" id="m9"></button>
+            </td>
+            <td>
+                <button class="pinkCard" id="m10"></button>
+            </td>
+            <td>
+                <button class="pinkCard" id="m11"></button>
+            </td>
+            <td>
+                <button class="pinkCard" id="m12"></button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button class="pinkCard" id="m13"></button>
+            </td>
+            <td>
+                <button class="pinkCard" id="m14"></button>
+            </td>
+            <td>
+                <button class="pinkCard" id="m15"></button>
+            </td>
+            <td>
+                <button class="pinkCard" id="m16"></button>
+            </td>
+        </tr>
+    </table>
+</div>
