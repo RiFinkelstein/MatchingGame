@@ -128,18 +128,18 @@
         document.querySelector("#score2").textContent = ScorePlayer2
         document.querySelector("#score1").textContent = ScorePlayer1
 
+
+        selectedBlueCard = null;
+        selectedPinkCard = null;
         winner = null;
         gameOver = false;
         currentTurn = player1;
-        selectedBlueCard = null;
-        selectedPinkCard = null;
         gameStatusmsg();
     };
 
     function doTakeTurn(event) {
         const btn = event.target;
-        const btnTextColor = window.getComputedStyle(btn).color;
-        if (btnTextColor !== "rgb(255, 255, 255)") {
+        if (btn.disabled == false) {
             TakeTurn(btn);
         }
 
