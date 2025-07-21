@@ -27,10 +27,12 @@ body {
     width: 100%;
     height: 100%;
     border: 1px solid white;
-    color: white;
+    color: lightblue;
     text-align: center;
     vertical-align: middle;
-    font-size: xx-large
+    font-size: xx-large;
+    font-family: Wingdings;
+
 }
 
 .pinkCard {
@@ -40,8 +42,9 @@ body {
     width: 100%;
     height: 100%;
     border: 1px solid white;
-    color: white;
+    color: lightpink;
     text-align: center;
     vertical-align: middle;
-    font-size: xx-large
+    font-size: xx-large;
+    font-family: Wingdings;
 }

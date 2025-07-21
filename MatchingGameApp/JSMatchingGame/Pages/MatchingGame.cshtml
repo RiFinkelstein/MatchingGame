@@ -4,12 +4,12 @@
 }
 <div class="row align-items-center bg-dark text-white p-3 rounded mb-4">
     <div class="col-md-2 text-start">
-        <button class="btn btn-light w-100" id="btnStart" onclick="startGame()">Start</button>
+        <button class="btn btn-light w-100" id="btnStart">Start</button>
     </div>
 
     <div class="col-md-4 text-center">
         <div id="msg" class="bg-info text-dark py-2 px-3 rounded shadow-sm">
-            Message placeholder
+            Press Start to begin
         </div>
     </div>
 
@@ -20,8 +20,9 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <table>
+<div class="row table-responsive">
+    
+    <table class="table">
         <tr>
             <td>
                 <button class="blueCard" id="m1"></button>
@@ -80,3 +81,158 @@
         </tr>
     </table>
 </div>
+<script>
+    document.querySelector("#btnStart").addEventListener("click", startGame);
+
+
+
+    let player1 = "player1";
+    let player2 = "player2";
+    let currentTurn = player1;
+    let gameOver = false;
+    const msg = document.querySelector("#msg");
+    const allBlueCards = [...document.querySelectorAll(".blueCard")];
+    const allPinkCards = [...document.querySelectorAll(".pinkCard")];
+    const shuffle = (array) => { return array.sort(() => Math.random() - 0.5); };
+    let CardNamesPink = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+    let CardNamesBlue = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+    let selectedBlueCard = null;
+    let selectedPinkCard = null;
+    let ScorePlayer1 = 0;
+    let ScorePlayer2 = 0;
+    let winner = null;
+
+
+    allBlueCards.forEach(s => s.addEventListener("click", doTakeTurn));
+    allPinkCards.forEach(s => s.addEventListener("click", doTakeTurn));
+
+
+
+    function startGame() {
+
+        //shuffle the "pictures" and apply them to the cards
+        shuffle(CardNamesPink);
+        //console.log(CardNamesPink);
+        shuffle(CardNamesBlue);
+        //console.log(CardNamesBlue);
+        for (let i = 0; i < 8; i++) {
+            allBlueCards[i].textContent = CardNamesBlue[i];
+            allPinkCards[i].textContent = CardNamesPink[i];
+            allBlueCards[i].style.color = "lightblue";
+            allPinkCards[i].style.color = "lightpink";
+            allPinkCards[i].disabled = false;
+            allBlueCards[i].disabled = false;
+        }
+        ScorePlayer1 = 0;
+        ScorePlayer2 = 0;
+        document.querySelector("#score2").textContent = ScorePlayer2
+        document.querySelector("#score1").textContent = ScorePlayer1
+
+        winner = null;
+        gameOver = false;
+        currentTurn = player1;
+        selectedBlueCard = null;
+        selectedPinkCard = null;
+        gameStatusmsg();
+    };
+
+    function doTakeTurn(event) {
+        const btn = event.target;
+        const btnTextColor = window.getComputedStyle(btn).color;
+        if (btnTextColor !== "rgb(255, 255, 255)") {
+            TakeTurn(btn);
+        }
+
+    }
+
+    function TakeTurn(btn) {
+        if (btn.classList.contains("blueCard")) {
+            if (selectedBlueCard !== null) {
+                return;
+            }
+            selectedBlueCard = btn;
+            btn.style.color = "white";
+            console.log(selectedBlueCard);
+
+        }
+        if (btn.classList.contains("pinkCard")) {
+            if (selectedPinkCard !== null) {
+                return;
+            }
+            selectedPinkCard = btn;
+            btn.style.color = "white";
+            console.log(selectedPinkCard);
+        }
+        if (selectedBlueCard !== null && selectedPinkCard != null) {
+            setTimeout(() => {
+                checkMatch();
+                switchTurn();
+            }, 1000
+            )
+        }
+    }
+
+    function switchTurn() {
+        if (!gameOver) {
+            if (selectedBlueCard !== null && selectedPinkCard !== null) {
+                currentTurn = currentTurn == player1 ? player2 : player1;
+                selectedBlueCard = null;
+                selectedPinkCard = null;
+                gameStatusmsg();
+            }
+        }
+    }
+    function checkMatch() {
+        if (selectedBlueCard !== null && selectedPinkCard !== null) {
+            if (selectedBlueCard.textContent == selectedPinkCard.textContent) {
+                if (currentTurn == player1) {
+                    ScorePlayer1++
+                    document.querySelector("#score1").textContent = ScorePlayer1
+                }
+                else if (currentTurn == player2) {
+                    ScorePlayer2++
+                    document.querySelector("#score2").textContent = ScorePlayer2
+                }
+                selectedBlueCard.disabled = true;
+                selectedPinkCard.disabled = true;
+                checkGameOver();
+            }
+            else {
+                selectedBlueCard.style.color = "lightblue"
+                selectedPinkCard.style.color = "lightpink"
+            }
+        }
+    }
+    function gameStatusmsg() {
+        if (gameOver == false) {
+            msg.textContent = "Current Turn: " + currentTurn;
+        }
+        else if (gameOver == true) {
+            msg.textContent = "Game over! Winner is: " + winner;
+        }
+    }
+    function checkGameOver() {
+        if (allBlueCards.every(c => c.disabled) && allPinkCards.every(c => c.disabled)) {
+            gameOver = true;
+            checkWinnerTie();
+            gameStatusmsg();
+        }
+    }
+    function checkWinnerTie() {
+        if (ScorePlayer1 > ScorePlayer2) {
+            winner = player1;
+        }
+        else if (ScorePlayer1 < ScorePlayer2) {
+            winner = player2;
+        }
+        else {
+            winner = "Tie"
+        }
+    }
+
+
+
+
+</script>
+
+
