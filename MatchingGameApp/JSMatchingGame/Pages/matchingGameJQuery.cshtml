@@ -218,7 +218,8 @@
                 gameOver = true;
                 checkWinnerTie();
                 gameStatusmsg();
-
+                $(allBlueCards).css("backgroundColor", "grey");
+                $(allPinkCards).css("backgroundColor", "grey");
             }
         }
         function checkWinnerTie() {
