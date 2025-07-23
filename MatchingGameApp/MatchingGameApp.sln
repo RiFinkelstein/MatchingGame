@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchingGameTest", "Matchin
 		{A25375EF-C344-4C72-A8D2-23D495BCB324} = {A25375EF-C344-4C72-A8D2-23D495BCB324}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSMatchingGame", "JSMatchingGame\JSMatchingGame.csproj", "{AD0AEACC-47AB-428C-B95C-6128A2180E93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSMatchingGame", "JSMatchingGame\JSMatchingGame.csproj", "{AD0AEACC-47AB-428C-B95C-6128A2180E93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
