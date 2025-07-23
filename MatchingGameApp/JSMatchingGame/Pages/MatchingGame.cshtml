@@ -120,15 +120,15 @@
             allPinkCards[i].textContent = CardNamesPink[i];
             allBlueCards[i].style.color = "lightblue";
             allPinkCards[i].style.color = "lightpink";
+            allBlueCards[i].style.backgroundColor = "lightblue"
+            allPinkCards[i].style.backgroundColor = "lightpink"
             allPinkCards[i].disabled = false;
             allBlueCards[i].disabled = false;
         }
         ScorePlayer1 = 0;
         ScorePlayer2 = 0;
-        document.querySelector("#score2").textContent = ScorePlayer2
-        document.querySelector("#score1").textContent = ScorePlayer1
-
-
+        document.querySelector("#score2").textContent = ScorePlayer2;
+        document.querySelector("#score1").textContent = ScorePlayer1;
         selectedBlueCard = null;
         selectedPinkCard = null;
         winner = null;

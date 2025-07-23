@@ -109,6 +109,7 @@
             shuffle = (array) => { return array.sort(() => Math.random() - 0.5); };
             $(allBlueCards).click(doTakeTurn);
             $(allPinkCards).click(doTakeTurn);
+
         });
 
         function startGame() {
@@ -129,8 +130,8 @@
             ScorePlayer2 = 0;
             $("#score2").text(ScorePlayer2);
             $("#score1").text(ScorePlayer1);
-
-
+            $(allBlueCards).css("backgroundColor", "lightblue");
+            $(allPinkCards).css("backgroundColor", "lightpink");
             selectedBlueCard = null;
             selectedPinkCard = null;
             winner = null;
