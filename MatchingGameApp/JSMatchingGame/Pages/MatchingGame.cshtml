@@ -216,6 +216,9 @@
             gameOver = true;
             checkWinnerTie();
             gameStatusmsg();
+            [...allBlueCards, ...allPinkCards].forEach(c => c.style.backgroundColor = "grey");
+
+
         }
     }
     function checkWinnerTie() {
