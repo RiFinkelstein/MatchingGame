@@ -136,7 +136,7 @@ function checkWinnerTie() {
     }
 }
 function displayScore() {
-    displayScorePlayer1.textContent = "<b>Player 1:</b> " + ScorePlayer1.toString();
-    displayScorePlayer2.textContent = ScorePlayer2.toString();
+    displayScorePlayer1.textContent = "Player 1: " + ScorePlayer1.toString();
+    displayScorePlayer2.textContent = "Player 2: " + ScorePlayer2.toString();
 }
 //# sourceMappingURL=matchingGame.js.map
