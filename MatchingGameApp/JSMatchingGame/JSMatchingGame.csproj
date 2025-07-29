@@ -7,6 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ts\matchingGame.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.8.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ts\matchingGame.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="wwwroot\images\memory-game.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
