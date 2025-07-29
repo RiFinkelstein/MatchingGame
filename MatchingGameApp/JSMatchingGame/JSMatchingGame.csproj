@@ -7,7 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\matchingGame.js" />
+    <Content Remove="wwwroot\js\matchingGame.js.map" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="ts\matchingGame.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\matchingGame.js" />
+    <None Include="wwwroot\js\matchingGame.js.map" />
   </ItemGroup>
 
   <ItemGroup>

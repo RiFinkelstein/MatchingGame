@@ -3,31 +3,25 @@ let player1 = "player1";
 let player2 = "player2";
 let currentTurn = player1;
 let gameOver = false;
-let msg;
-let allBlueCards;
-let allPinkCards;
-let shuffle;
-let CardNamesPink;
-let CardNamesBlue;
+let msg: Element = document.querySelector("#msg");
+let allBlueCards: HTMLButtonElement[] = [...document.querySelectorAll(".blueCard")];
+let allPinkCards = [...document.querySelectorAll(".pinkCard")];
+let shuffle = (array) => { return array.sort(() => Math.random() - 0.5); };
+let CardNamesPink: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+let CardNamesBlue: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 let selectedBlueCard = null;
 let selectedPinkCard = null;
 let ScorePlayer1 = 0;
 let ScorePlayer2 = 0;
 let winner = null;
 
-$(document).ready(function () {
-    msg = $("#msg")[0];
-    allBlueCards = $(".blueCard").toArray();
-    allPinkCards = $(".pinkCard").toArray();
-    CardNamesPink = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-    CardNamesBlue = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
-    shuffle = (array) => { return array.sort(() => Math.random() - 0.5); };
-    $(allBlueCards).click(doTakeTurn);
-    $(allPinkCards).click(doTakeTurn);
+allBlueCards.forEach(s => s.addEventListener("click", doTakeTurn));
+allPinkCards.forEach(s => s.addEventListener("click", doTakeTurn));
 
-});
+
 
 function startGame() {
+
     //shuffle the "pictures" and apply them to the cards
     shuffle(CardNamesPink);
     //console.log(CardNamesPink);
@@ -38,15 +32,15 @@ function startGame() {
         allPinkCards[i].textContent = CardNamesPink[i];
         allBlueCards[i].style.color = "lightblue";
         allPinkCards[i].style.color = "lightpink";
+        allBlueCards[i].style.backgroundColor = "lightblue"
+        allPinkCards[i].style.backgroundColor = "lightpink"
         allPinkCards[i].disabled = false;
         allBlueCards[i].disabled = false;
     }
     ScorePlayer1 = 0;
     ScorePlayer2 = 0;
-    $("#score2").text(ScorePlayer2);
-    $("#score1").text(ScorePlayer1);
-    $(allBlueCards).css("backgroundColor", "lightblue");
-    $(allPinkCards).css("backgroundColor", "lightpink");
+    document.querySelector("#score2").textContent = ScorePlayer2;
+    document.querySelector("#score1").textContent = ScorePlayer1;
     selectedBlueCard = null;
     selectedPinkCard = null;
     winner = null;
@@ -64,21 +58,21 @@ function doTakeTurn(event) {
 }
 
 function TakeTurn(btn) {
-    if ($(btn).hasClass("blueCard")) {
+    if (btn.classList.contains("blueCard")) {
         if (selectedBlueCard !== null) {
             return;
         }
         selectedBlueCard = btn;
-        $(btn).css("color", "white");
+        btn.style.color = "white";
         console.log(selectedBlueCard);
 
     }
-    if ($(btn).hasClass("pinkCard")) {
+    if (btn.classList.contains("pinkCard")) {
         if (selectedPinkCard !== null) {
             return;
         }
         selectedPinkCard = btn;
-        $(btn).css("color", "white");
+        btn.style.color = "white";
         console.log(selectedPinkCard);
     }
     if (selectedBlueCard !== null && selectedPinkCard != null) {
@@ -105,28 +99,28 @@ function checkMatch() {
         if (selectedBlueCard.textContent == selectedPinkCard.textContent) {
             if (currentTurn == player1) {
                 ScorePlayer1++
-                $("#score1").text(ScorePlayer1);
+                document.querySelector("#score1").textContent = ScorePlayer1
             }
             else if (currentTurn == player2) {
                 ScorePlayer2++
-                $("#score2").text(ScorePlayer2);
+                document.querySelector("#score2").textContent = ScorePlayer2
             }
             selectedBlueCard.disabled = true;
             selectedPinkCard.disabled = true;
             checkGameOver();
         }
         else {
-            $(selectedBlueCard).css("color", "lightblue");
-            $(selectedPinkCard).css("color", "lightpink");
+            selectedBlueCard.style.color = "lightblue"
+            selectedPinkCard.style.color = "lightpink"
         }
     }
 }
 function gameStatusmsg() {
     if (gameOver == false) {
-        $(msg).text("Current Turn: " + currentTurn);
+        msg.textContent = "Current Turn: " + currentTurn;
     }
     else if (gameOver == true) {
-        $(msg).text("Game over! Winner is: " + winner);
+        msg.textContent = "Game over! Winner is: " + winner;
     }
 }
 function checkGameOver() {
@@ -134,8 +128,9 @@ function checkGameOver() {
         gameOver = true;
         checkWinnerTie();
         gameStatusmsg();
-        $(allBlueCards).css("backgroundColor", "grey");
-        $(allPinkCards).css("backgroundColor", "grey");
+        [...allBlueCards, ...allPinkCards].forEach(c => c.style.backgroundColor = "grey");
+
+
     }
 }
 function checkWinnerTie() {
@@ -149,3 +144,5 @@ function checkWinnerTie() {
         winner = "Tie"
     }
 }
+
+

@@ -1,28 +1,27 @@
 document.querySelector("#btnStart").addEventListener("click", startGame);
-var player1 = "player1";
-var player2 = "player2";
-var currentTurn = player1;
-var gameOver = false;
-var msg;
-var allBlueCards;
-var allPinkCards;
-var shuffle;
-var CardNamesPink;
-var CardNamesBlue;
-var selectedBlueCard = null;
-var selectedPinkCard = null;
-var ScorePlayer1 = 0;
-var ScorePlayer2 = 0;
-var winner = null;
+let player1 = "player1";
+let player2 = "player2";
+let currentTurn = player1;
+let gameOver = false;
+let msg;
+let allBlueCards = [];
+let allPinkCards = [];
+let shuffle = (array) => { return array.sort(() => Math.random() - 0.5); };
+let CardNamesPink = [];
+let CardNamesBlue = [];
+let selectedBlueCard = null;
+let selectedPinkCard = null;
+let ScorePlayer1 = 0;
+let ScorePlayer2 = 0;
+let winner = null;
 $(document).ready(function () {
     msg = $("#msg")[0];
-    allBlueCards = $(".blueCard").toArray();
-    allPinkCards = $(".pinkCard").toArray();
+    const allBlueCards = [...document.querySelectorAll(".blueCard")];
+    const allPinkCards = [...document.querySelectorAll(".pinkCard")];
     CardNamesPink = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
     CardNamesBlue = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-    shuffle = function (array) { return array.sort(function () { return Math.random() - 0.5; }); };
-    $(allBlueCards).click(doTakeTurn);
-    $(allPinkCards).click(doTakeTurn);
+    allBlueCards.forEach(s => s.addEventListener("click", doTakeTurn));
+    allPinkCards.forEach(s => s.addEventListener("click", doTakeTurn));
 });
 function startGame() {
     //shuffle the "pictures" and apply them to the cards
@@ -30,7 +29,7 @@ function startGame() {
     //console.log(CardNamesPink);
     shuffle(CardNamesBlue);
     //console.log(CardNamesBlue);
-    for (var i = 0; i < 8; i++) {
+    for (let i = 0; i < 8; i++) {
         allBlueCards[i].textContent = CardNamesBlue[i];
         allPinkCards[i].textContent = CardNamesPink[i];
         allBlueCards[i].style.color = "lightblue";
@@ -53,7 +52,7 @@ function startGame() {
 }
 ;
 function doTakeTurn(event) {
-    var btn = event.target;
+    const btn = event.target;
     if (btn.disabled == false) {
         TakeTurn(btn);
     }
@@ -76,7 +75,7 @@ function TakeTurn(btn) {
         console.log(selectedPinkCard);
     }
     if (selectedBlueCard !== null && selectedPinkCard != null) {
-        setTimeout(function () {
+        setTimeout(() => {
             checkMatch();
             switchTurn();
         }, 1000);
@@ -122,7 +121,7 @@ function gameStatusmsg() {
     }
 }
 function checkGameOver() {
-    if (allBlueCards.every(function (c) { return c.disabled; }) && allPinkCards.every(function (c) { return c.disabled; })) {
+    if (allBlueCards.every(c => c.disabled) && allPinkCards.every(c => c.disabled)) {
         gameOver = true;
         checkWinnerTie();
         gameStatusmsg();
