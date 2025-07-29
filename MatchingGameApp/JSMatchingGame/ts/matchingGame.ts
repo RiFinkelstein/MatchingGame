@@ -3,9 +3,9 @@ let player1 = "player1";
 let player2 = "player2";
 let currentTurn = player1;
 let gameOver = false;
-let msg: Element = document.querySelector("#msg");
-let allBlueCards: HTMLButtonElement[] = [...document.querySelectorAll(".blueCard")];
-let allPinkCards = [...document.querySelectorAll(".pinkCard")];
+let msg: Element = document.querySelector("#msg") as HTMLElement;
+const allBlueCards: HTMLButtonElement[] = Array.from(document.querySelectorAll(".blueCard"));
+const allPinkCards: HTMLButtonElement[] = Array.from(document.querySelectorAll(".pinkCard"));
 let shuffle = (array) => { return array.sort(() => Math.random() - 0.5); };
 let CardNamesPink: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 let CardNamesBlue: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
@@ -14,6 +14,8 @@ let selectedPinkCard = null;
 let ScorePlayer1 = 0;
 let ScorePlayer2 = 0;
 let winner = null;
+let displayScorePlayer1 = document.querySelector("#scoreplayer1") as HTMLElement;
+let displayScorePlayer2 = document.querySelector("#scoreplayer2") as HTMLElement;
 
 allBlueCards.forEach(s => s.addEventListener("click", doTakeTurn));
 allPinkCards.forEach(s => s.addEventListener("click", doTakeTurn));
@@ -39,8 +41,7 @@ function startGame() {
     }
     ScorePlayer1 = 0;
     ScorePlayer2 = 0;
-    document.querySelector("#score2").textContent = ScorePlayer2;
-    document.querySelector("#score1").textContent = ScorePlayer1;
+    displayScore();
     selectedBlueCard = null;
     selectedPinkCard = null;
     winner = null;
@@ -99,11 +100,15 @@ function checkMatch() {
         if (selectedBlueCard.textContent == selectedPinkCard.textContent) {
             if (currentTurn == player1) {
                 ScorePlayer1++
-                document.querySelector("#score1").textContent = ScorePlayer1
+                //document.querySelector("#score1").textContent = ScorePlayer1
+                displayScore();
+
             }
             else if (currentTurn == player2) {
                 ScorePlayer2++
-                document.querySelector("#score2").textContent = ScorePlayer2
+                //document.querySelector("#score2").textContent = ScorePlayer2
+                displayScore();
+
             }
             selectedBlueCard.disabled = true;
             selectedPinkCard.disabled = true;
@@ -143,6 +148,10 @@ function checkWinnerTie() {
     else {
         winner = "Tie"
     }
+}
+function displayScore() {
+    displayScorePlayer1.textContent = "Player 1: "+ ScorePlayer1.toString();
+    displayScorePlayer2.textContent = "Player 2: " +  ScorePlayer2.toString();
 }
 
 
